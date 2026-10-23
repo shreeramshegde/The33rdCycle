@@ -1,0 +1,105 @@
+-- =============================================================================
+-- THE 33RD CYCLE // CHRONOS SUBMISSION PORTAL
+-- DATABASE SEED DATA (PostgreSQL / NeonDB)
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- 1. SYSTEM CONFIGURATION
+-- -----------------------------------------------------------------------------
+INSERT INTO system_config (config_key, config_value, description) VALUES
+('PORTAL_FROZEN', 'FALSE', 'Set to TRUE when the event concludes or during scoring freeze'),
+('EVENT_TITLE', 'THE 33RD CYCLE // CHRONOS INVESTIGATION PORTAL', 'Display title for portal header'),
+('STARTING_SCORE', '100', 'Initial points allocated to every participating team'),
+('COMPLETION_BONUS', '20', 'Points awarded per successfully verified checkpoint');
+
+-- -----------------------------------------------------------------------------
+-- 2. DEFAULT ADMIN ACCOUNT
+-- Username: admin
+-- Password: admin123 (BCrypt Hash: $2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G)
+-- -----------------------------------------------------------------------------
+INSERT INTO admins (username, password_hash, full_name, role) VALUES
+('admin', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 'IEEE Core Administrator', 'ROLE_ADMIN');
+
+-- -----------------------------------------------------------------------------
+-- 3. THE 6 OFFICIAL CHECKPOINTS (From The 33rd Cycle Report)
+-- -----------------------------------------------------------------------------
+INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_aliases, max_points, penalty_points, order_index, is_active) VALUES
+(
+    'ROUND_0',
+    'Incident Log Clock Calibration',
+    'Opening File',
+    '11:59:33',
+    ARRAY['11:59:33', '11:59:33 PM', '23:59:33', '115933'],
+    20,
+    5,
+    0,
+    TRUE
+),
+(
+    'CP_1',
+    'The Last Transmission (Hamming Parity)',
+    'Checkpoint 1',
+    '2056',
+    ARRAY['2056', 'YEAR 2056', '2054'],
+    20,
+    5,
+    1,
+    TRUE
+),
+(
+    'CP_2',
+    'The Unreliable Witness (Elias Verification)',
+    'Checkpoint 2',
+    'RECORD3',
+    ARRAY['RECORD 3', '3', 'RECORD3', 'REC 3', 'RECORD-3'],
+    20,
+    5,
+    2,
+    TRUE
+),
+(
+    'CP_3',
+    'The CHRONOS Terminal (FSM Sequence)',
+    'Checkpoint 3',
+    '1101',
+    ARRAY['1101', '1-1-0-1', '1 1 0 1', '1,1,0,1'],
+    20,
+    5,
+    3,
+    TRUE
+),
+(
+    'CP_4',
+    'The Secondary Override (Logic & Timing)',
+    'Checkpoint 4',
+    'CH033',
+    ARRAY['CH-0-33', 'CH033', 'CH 0 33', 'CH-033', 'CH_0_33'],
+    20,
+    5,
+    4,
+    TRUE
+),
+(
+    'CP_5',
+    'The Archival Grid (Sudoku Consensus)',
+    'Checkpoint 5',
+    '1984',
+    ARRAY['1984', 'YEAR 1984'],
+    20,
+    5,
+    5,
+    TRUE
+);
+
+-- -----------------------------------------------------------------------------
+-- 4. PRE-SEEDED TEST TEAMS
+-- Starting Score: 100 Points
+-- Default Password for all demo teams: team123
+-- (BCrypt Hash: $2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G)
+-- -----------------------------------------------------------------------------
+INSERT INTO teams (team_code, team_name, password_hash, total_score, completed_checkpoints, is_active) VALUES
+('TEAM_01', 'Paradox Seekers', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
+('TEAM_02', 'Quantum Observers', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
+('TEAM_03', 'Temporal Shift', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
+('TEAM_04', 'Entropy Wardens', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
+('DEMO_TEAM', 'IEEE Core Test Bench', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE);
