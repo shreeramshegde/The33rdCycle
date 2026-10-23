@@ -61,10 +61,10 @@ export default function RulesModal({ isOpen, onClose }) {
             <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
             <div>
               <span className="font-bold text-white uppercase block mb-0.5">
-                3. Sequential Verification
+                3. Free Investigation Sequence
               </span>
               <span>
-                Stages unlock in sequence: Opening File → Checkpoint 1 → 2 → 3 → 4 → 5. You cannot skip or submit ahead.
+                Stages do NOT require sequential completion. Your team may investigate any envelope and submit answers for any checkpoint in any order.
               </span>
             </div>
           </div>

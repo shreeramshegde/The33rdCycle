@@ -3,7 +3,17 @@
  * Connects to Spring Boot 3.3 Backend
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const getApiBaseUrl = () => {
+  let url = (import.meta.env.VITE_API_URL || '/api').trim();
+  url = url.replace(/\/+$/, '');
+  // If user provides full origin without /api, append /api
+  if (url.startsWith('http') && !url.endsWith('/api')) {
+    url = `${url}/api`;
+  }
+  return url;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export const getStoredToken = () => localStorage.getItem('chronos_token');
 export const getStoredTeam = () => {

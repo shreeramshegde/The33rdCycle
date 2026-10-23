@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Lock, CheckCircle2, Send, AlertTriangle, HelpCircle, Sparkles, Clock } from 'lucide-react';
+import { CheckCircle2, Send, AlertTriangle, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function CheckpointCard({
   checkpoint,
-  isActive,
   isPortalFrozen,
   onSubmit,
 }) {
@@ -13,11 +12,10 @@ export default function CheckpointCard({
   const [feedback, setFeedback] = useState(null);
 
   const isCompleted = checkpoint.isCompleted;
-  const isLocked = !isCompleted && !isActive;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!answer.trim() || submitting || isLocked || isPortalFrozen || isCompleted) return;
+    if (!answer.trim() || submitting || isPortalFrozen || isCompleted) return;
 
     setSubmitting(true);
     setFeedback(null);
@@ -40,7 +38,7 @@ export default function CheckpointCard({
       } else {
         setFeedback({
           type: 'error',
-          message: result.message || 'Incorrect answer. -5 Points Penalty applied.',
+          message: result.message || 'Incorrect answer. Please check your dossier and retry.',
         });
       }
     } catch (err) {
@@ -57,18 +55,15 @@ export default function CheckpointCard({
     <div
       className={`rounded-2xl border transition-all duration-300 relative overflow-hidden backdrop-blur-sm ${
         isCompleted
-          ? 'bg-[#0a1510]/80 border-emerald-500/40 shadow-lg shadow-emerald-950/20'
-          : isActive
-          ? 'bg-[#0a1220]/90 border-cyan-500/50 shadow-xl shadow-cyan-950/30 ring-1 ring-cyan-500/30'
-          : 'bg-[#080c14]/60 border-slate-800/70 opacity-65'
+          ? 'bg-[#0a1510]/85 border-emerald-500/40 shadow-lg shadow-emerald-950/20'
+          : 'bg-[#0a1220]/90 border-slate-800 hover:border-cyan-500/50 shadow-xl shadow-cyan-950/20 ring-1 ring-slate-800/80 hover:ring-cyan-500/20'
       }`}
     >
-      {/* Top Accent Ribbon for Active / Completed */}
-      {isCompleted && (
+      {/* Top Accent Ribbon */}
+      {isCompleted ? (
         <div className="h-1 bg-gradient-to-r from-emerald-500 to-teal-400 w-full" />
-      )}
-      {isActive && (
-        <div className="h-1 bg-gradient-to-r from-cyan-500 via-sky-400 to-cyan-600 w-full animate-pulse" />
+      ) : (
+        <div className="h-1 bg-gradient-to-r from-cyan-500 via-sky-400 to-slate-700 w-full opacity-60" />
       )}
 
       <div className="p-5 sm:p-6">
@@ -80,9 +75,7 @@ export default function CheckpointCard({
                 className={`text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded font-bold ${
                   isCompleted
                     ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/60'
-                    : isActive
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-800/60'
-                    : 'bg-slate-900 text-slate-500 border border-slate-800'
+                    : 'bg-cyan-950/80 text-cyan-300 border border-cyan-800/60'
                 }`}
               >
                 {checkpoint.stageLabel || `Stage ${checkpoint.orderIndex}`}
@@ -105,19 +98,15 @@ export default function CheckpointCard({
               <div className="w-9 h-9 rounded-full bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-center text-emerald-400 shadow-sm shadow-emerald-950">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
-            ) : isActive ? (
-              <div className="w-9 h-9 rounded-full bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-400 shadow-sm shadow-cyan-950 animate-pulse">
-                <Sparkles className="w-4 h-4" />
-              </div>
             ) : (
-              <div className="w-9 h-9 rounded-full bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slate-600">
-                <Lock className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-full bg-cyan-950/60 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-sm shadow-cyan-950">
+                <Sparkles className="w-4 h-4" />
               </div>
             )}
           </div>
         </div>
 
-        {/* Dynamic Card Content Based on State */}
+        {/* Dynamic Card Content */}
         {isCompleted ? (
           <div className="space-y-3">
             <div className="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-emerald-300 text-xs font-mono flex items-center justify-between">
@@ -131,20 +120,13 @@ export default function CheckpointCard({
 
             <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 px-1">
               <span>Attempts logged: {checkpoint.attemptsCount || 1}</span>
-              <span className="text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> Solved
+              <span className="text-emerald-400 flex items-center gap-1 font-semibold">
+                <CheckCircle2 className="w-3.5 h-3.5" /> Solved
               </span>
             </div>
           </div>
-        ) : isLocked ? (
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 text-center space-y-2">
-            <Lock className="w-5 h-5 text-slate-600 mx-auto" />
-            <p className="text-xs font-mono text-slate-500 leading-relaxed">
-              STAGE LOCKED. You must successfully solve and verify prior stages in your dossier to decrypt this checkpoint.
-            </p>
-          </div>
         ) : (
-          /* Active State: Form Input */
+          /* Open State: Form Input */
           <div className="space-y-4">
             {feedback && (
               <div
@@ -176,7 +158,6 @@ export default function CheckpointCard({
                     disabled={submitting || isPortalFrozen}
                     placeholder="Enter final code or phrase..."
                     className="w-full px-3.5 py-2.5 bg-slate-950/90 border border-slate-800 rounded-lg text-slate-100 placeholder-slate-600 text-sm font-mono focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors uppercase disabled:opacity-50"
-                    autoFocus
                   />
                 </div>
               </div>
@@ -208,7 +189,7 @@ export default function CheckpointCard({
 
             <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-800/60">
               <span>Attempts recorded: {checkpoint.attemptsCount || 0}</span>
-              <span className="text-cyan-400 font-medium">Ready for Input</span>
+              <span className="text-cyan-400 font-medium">Open for Submission</span>
             </div>
           </div>
         )}

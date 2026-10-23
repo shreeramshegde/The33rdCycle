@@ -97,10 +97,6 @@ export default function App() {
   const totalScore = progress?.totalScore ?? team?.totalScore ?? 100;
   const isPortalFrozen = progress?.isPortalFrozen ?? false;
 
-  // Determine which checkpoint is currently active (first unsolved checkpoint)
-  const activeCheckpoint = checkpoints.find((cp) => !cp.isCompleted);
-  const activeCheckpointId = activeCheckpoint ? activeCheckpoint.id : null;
-
   return (
     <div className="min-h-screen bg-[#07090e] chronos-grid text-slate-100 flex flex-col font-sans">
       {/* Top Navbar */}
@@ -157,10 +153,10 @@ export default function App() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
-                  INVESTIGATION SEQUENCE (6 STAGES)
+                  INVESTIGATION SEQUENCE (6 CHECKPOINTS)
                 </span>
-                <span className="text-[11px] font-mono text-slate-500">
-                  Complete each checkpoint to decrypt the next
+                <span className="text-[11px] font-mono text-cyan-400/90">
+                  Open Investigation • Attend any checkpoint in any order
                 </span>
               </div>
 
@@ -169,7 +165,6 @@ export default function App() {
                   <CheckpointCard
                     key={cp.id}
                     checkpoint={cp}
-                    isActive={cp.id === activeCheckpointId}
                     isPortalFrozen={isPortalFrozen}
                     onSubmit={handleSubmitAnswer}
                   />
