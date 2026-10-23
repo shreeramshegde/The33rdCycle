@@ -111,7 +111,7 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-6 space-y-3.5 sm:space-y-6">
         {/* Portal Frozen Critical Banner */}
         {isPortalFrozen && (
           <div className="p-4 rounded-xl bg-rose-950/50 border border-rose-500/50 text-rose-200 flex items-center justify-between gap-3 shadow-lg shadow-rose-950/30 animate-pulse">

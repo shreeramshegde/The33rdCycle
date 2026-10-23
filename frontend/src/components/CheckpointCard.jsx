@@ -25,9 +25,9 @@ export default function CheckpointCard({
       if (result.isCorrect) {
         // Trigger celebratory confetti
         confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 },
+          particleCount: 75,
+          spread: 60,
+          origin: { y: 0.65 },
           colors: ['#06b6d4', '#10b981', '#38bdf8', '#fbbf24'],
         });
         setFeedback({
@@ -66,13 +66,13 @@ export default function CheckpointCard({
         <div className="h-1 bg-gradient-to-r from-cyan-500 via-sky-400 to-slate-700 w-full opacity-60" />
       )}
 
-      <div className="p-5 sm:p-6">
+      <div className="p-4 sm:p-6">
         {/* Card Header */}
-        <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="flex items-start justify-between gap-2.5 mb-3.5">
           <div className="min-w-0">
-            <div className="flex items-center gap-2 mb-1.5">
+            <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
               <span
-                className={`text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded font-bold ${
+                className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded font-bold ${
                   isCompleted
                     ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/60'
                     : 'bg-cyan-950/80 text-cyan-300 border border-cyan-800/60'
@@ -87,7 +87,7 @@ export default function CheckpointCard({
               </span>
             </div>
 
-            <h3 className="text-base sm:text-lg font-bold font-mono text-white tracking-tight leading-snug">
+            <h3 className="text-sm sm:text-base font-bold font-mono text-white tracking-tight leading-snug">
               {checkpoint.title}
             </h3>
           </div>
@@ -95,12 +95,12 @@ export default function CheckpointCard({
           {/* Status Icon Badge */}
           <div className="shrink-0">
             {isCompleted ? (
-              <div className="w-9 h-9 rounded-full bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-center text-emerald-400 shadow-sm shadow-emerald-950">
-                <CheckCircle2 className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-center text-emerald-400 shadow-sm shadow-emerald-950">
+                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             ) : (
-              <div className="w-9 h-9 rounded-full bg-cyan-950/60 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-sm shadow-cyan-950">
-                <Sparkles className="w-4 h-4" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-cyan-950/60 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-sm shadow-cyan-950">
+                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             )}
           </div>
@@ -108,29 +108,29 @@ export default function CheckpointCard({
 
         {/* Dynamic Card Content */}
         {isCompleted ? (
-          <div className="space-y-3">
-            <div className="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-emerald-300 text-xs font-mono flex items-center justify-between">
+          <div className="space-y-2.5">
+            <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-emerald-300 text-xs font-mono flex items-center justify-between">
               <span className="font-semibold tracking-wide">
-                STATUS: SEQUENCE VERIFIED
+                SEQUENCE VERIFIED
               </span>
               <span className="px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 font-bold border border-emerald-500/30">
                 +{checkpoint.pointsAwarded || 20} PTS
               </span>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 px-1">
-              <span>Attempts logged: {checkpoint.attemptsCount || 1}</span>
+            <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-slate-400 px-1">
+              <span>Attempts: {checkpoint.attemptsCount || 1}</span>
               <span className="text-emerald-400 flex items-center gap-1 font-semibold">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Solved
+                <CheckCircle2 className="w-3 h-3" /> Solved
               </span>
             </div>
           </div>
         ) : (
           /* Open State: Form Input */
-          <div className="space-y-4">
+          <div className="space-y-3">
             {feedback && (
               <div
-                className={`p-3 rounded-lg text-xs font-mono flex items-start gap-2 border ${
+                className={`p-2.5 sm:p-3 rounded-lg text-xs font-mono flex items-start gap-2 border ${
                   feedback.type === 'success'
                     ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
                     : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
@@ -145,9 +145,9 @@ export default function CheckpointCard({
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-2.5">
               <div>
-                <label className="block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-[10px] sm:text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">
                   Enter Anomaly Solution Code
                 </label>
                 <div className="relative">
@@ -156,21 +156,25 @@ export default function CheckpointCard({
                     value={answer}
                     onChange={(e) => setAnswer(e.target.value)}
                     disabled={submitting || isPortalFrozen}
-                    placeholder="Enter final code or phrase..."
-                    className="w-full px-3.5 py-2.5 bg-slate-950/90 border border-slate-800 rounded-lg text-slate-100 placeholder-slate-600 text-sm font-mono focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors uppercase disabled:opacity-50"
+                    placeholder="Enter code or answer..."
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="characters"
+                    spellCheck="false"
+                    className="w-full px-3.5 py-2.5 bg-slate-950/90 border border-slate-800 rounded-lg text-slate-100 placeholder-slate-600 font-mono text-base sm:text-sm focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors uppercase disabled:opacity-50"
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 pt-1">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 pt-0.5">
                 <div className="text-[10px] font-mono text-slate-500">
-                  <span className="text-amber-400">Rule:</span> -5 PTS per incorrect submission
+                  <span className="text-amber-400">Rule:</span> -5 PTS per wrong attempt
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting || !answer.trim() || isPortalFrozen}
-                  className="py-2.5 px-4 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-slate-950 font-mono font-bold text-xs tracking-wider uppercase rounded-lg shadow-md shadow-cyan-950/60 transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  className="w-full sm:w-auto py-2.5 px-4 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-slate-950 font-mono font-bold text-xs tracking-wider uppercase rounded-lg shadow-md shadow-cyan-950/60 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {submitting ? (
                     <>
@@ -187,9 +191,9 @@ export default function CheckpointCard({
               </div>
             </form>
 
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-800/60">
-              <span>Attempts recorded: {checkpoint.attemptsCount || 0}</span>
-              <span className="text-cyan-400 font-medium">Open for Submission</span>
+            <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-800/60">
+              <span>Attempts: {checkpoint.attemptsCount || 0}</span>
+              <span className="text-cyan-400 font-medium">Ready</span>
             </div>
           </div>
         )}
