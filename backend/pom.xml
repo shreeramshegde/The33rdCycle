@@ -76,6 +76,13 @@
             <version>${springdoc.version}</version>
         </dependency>
 
+        <!-- Auto-load .env files in Spring Boot development -->
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
         <!-- DevTools & Test (optional) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
