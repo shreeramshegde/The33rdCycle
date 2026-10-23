@@ -137,7 +137,12 @@ public class PortalService {
             teamRepository.save(team);
             message = "VERIFIED: Signal Accepted. +" + pointsAwarded + " Points awarded to team ledger!";
         } else {
-            message = "SIGNAL REJECTED: Value mismatch. Review your evidence and try again. (Attempt #" + currentAttemptNumber + ")";
+            int penalty = (checkpoint.getPenaltyPoints() != null) ? checkpoint.getPenaltyPoints() : 5;
+            pointsAwarded = -penalty;
+            team.setTotalScore(team.getTotalScore() - penalty);
+            team.setLastActive(ZonedDateTime.now());
+            teamRepository.save(team);
+            message = "SIGNAL REJECTED: Value mismatch. -" + penalty + " Points penalty deducted. (Attempt #" + currentAttemptNumber + ")";
         }
 
         // Record submission

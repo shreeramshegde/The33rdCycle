@@ -177,7 +177,7 @@ public class ChronosPortalIntegrationTest {
 
     @Test
     @Order(8)
-    @DisplayName("8. Submit Incorrect Answer should reject and award 0 points")
+    @DisplayName("8. Submit Incorrect Answer should reject and deduct 5 points penalty")
     void testSubmitIncorrectAnswer() throws Exception {
         Map<String, String> submission = new HashMap<>();
         submission.put("checkpointId", "CP_5");
@@ -189,7 +189,7 @@ public class ChronosPortalIntegrationTest {
                         .content(objectMapper.writeValueAsString(submission)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.isCorrect", is(false)))
-                .andExpect(jsonPath("$.pointsAwarded", is(0)))
+                .andExpect(jsonPath("$.pointsAwarded", is(-5)))
                 .andExpect(jsonPath("$.message", containsString("SIGNAL REJECTED")));
     }
 

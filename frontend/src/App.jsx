@@ -79,6 +79,12 @@ export default function App() {
       };
       setLogs((prev) => [newLog, ...prev]);
 
+      // Optimistically update total score in state immediately
+      if (result.updatedTotalScore !== undefined) {
+        setProgress((prev) => prev ? { ...prev, totalScore: result.updatedTotalScore } : prev);
+        setTeam((prev) => prev ? { ...prev, totalScore: result.updatedTotalScore } : prev);
+      }
+
       // Refresh progress to update checkpoint states
       await loadProgress(true);
 

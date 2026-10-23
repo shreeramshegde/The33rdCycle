@@ -38,7 +38,7 @@ export default function CheckpointCard({
       } else {
         setFeedback({
           type: 'error',
-          message: result.message || 'Incorrect answer. Please check your dossier and retry.',
+          message: result.message || 'Incorrect answer. -5 Points Penalty deducted.',
         });
       }
     } catch (err) {
