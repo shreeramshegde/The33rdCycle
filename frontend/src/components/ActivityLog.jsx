@@ -1,0 +1,76 @@
+import React, { useState } from 'react';
+import { History, ChevronDown, ChevronUp, CheckCircle, XCircle } from 'lucide-react';
+
+export default function ActivityLog({ logs = [] }) {
+  const [isOpen, setIsOpen] = useState(true);
+
+  if (!logs || logs.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="bg-[#0b0f19]/80 border border-slate-800 rounded-xl overflow-hidden backdrop-blur-sm">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-4 py-3 bg-slate-900/60 hover:bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-left transition-colors cursor-pointer"
+      >
+        <div className="flex items-center gap-2">
+          <History className="w-4 h-4 text-cyan-400" />
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+            Submission Telemetry Log ({logs.length})
+          </span>
+        </div>
+        {isOpen ? (
+          <ChevronUp className="w-4 h-4 text-slate-400" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-slate-400" />
+        )}
+      </button>
+
+      {isOpen && (
+        <div className="p-3 sm:p-4 max-h-56 overflow-y-auto space-y-2 font-mono text-xs">
+          {logs.map((log, idx) => (
+            <div
+              key={idx}
+              className={`p-2.5 rounded-lg border flex items-center justify-between gap-3 ${
+                log.isCorrect
+                  ? 'bg-emerald-950/20 border-emerald-500/30 text-emerald-300'
+                  : 'bg-rose-950/20 border-rose-500/30 text-rose-300'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                {log.isCorrect ? (
+                  <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                ) : (
+                  <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                )}
+                <div className="truncate">
+                  <span className="font-bold text-slate-100">[{log.checkpointId}]</span>{' '}
+                  <span className="text-slate-400">Attempt #{log.attemptNumber}:</span>{' '}
+                  <span className={log.isCorrect ? 'text-emerald-300' : 'text-rose-300'}>
+                    {log.isCorrect ? 'CORRECT VERIFICATION' : 'ANOMALY MISMATCH'}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <span
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                    log.pointsAwarded > 0
+                      ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-500/30'
+                      : 'bg-rose-900/60 text-rose-300 border border-rose-500/30'
+                  }`}
+                >
+                  {log.pointsAwarded > 0 ? `+${log.pointsAwarded}` : log.pointsAwarded} PTS
+                </span>
+                <span className="text-[10px] text-slate-500 hidden sm:inline">
+                  {log.time}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
