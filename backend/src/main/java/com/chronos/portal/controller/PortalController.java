@@ -24,7 +24,7 @@ public class PortalController {
         this.portalService = portalService;
     }
 
-    @GetMapping("/status")
+    @GetMapping({"/status", "/progress"})
     @Operation(summary = "Get Team Progress", description = "Retrieves current completion status and points across all 6 checkpoints")
     public ResponseEntity<TeamProgressResponse> getStatus(Authentication authentication) {
         String teamCode = authentication.getName();

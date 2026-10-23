@@ -62,7 +62,7 @@ export const api = {
   // Get current team progress and checkpoint statuses
   async getProgress() {
     const token = getStoredToken();
-    const res = await fetch(`${API_BASE_URL}/portal/progress`, {
+    const res = await fetch(`${API_BASE_URL}/portal/status`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -75,6 +75,7 @@ export const api = {
   // Submit answer for verification
   async submitAnswer(checkpointId, submittedAnswer) {
     const token = getStoredToken();
+    const cleanAnswer = submittedAnswer.trim();
     const res = await fetch(`${API_BASE_URL}/portal/submit`, {
       method: 'POST',
       headers: {
@@ -83,7 +84,8 @@ export const api = {
       },
       body: JSON.stringify({
         checkpointId,
-        submittedAnswer: submittedAnswer.trim(),
+        answer: cleanAnswer,
+        submittedAnswer: cleanAnswer,
       }),
     });
     return handleResponse(res);
