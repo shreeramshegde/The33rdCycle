@@ -122,7 +122,7 @@ export default function App() {
                   TEMPORAL LOCKOUT ACTIVE (PORTAL FROZEN)
                 </span>
                 <span className="text-xs text-rose-300 font-mono">
-                  Submissions are temporarily suspended by IEEE Core Administrators. Scoring is halted.
+                  Submissions are temporarily suspended by NISB Control. Scoring is halted.
                 </span>
               </div>
             </div>
@@ -184,8 +184,8 @@ export default function App() {
       {/* Sleek Minimal Footer */}
       <footer className="border-t border-slate-800/80 bg-[#07090e]/80 py-4 text-center text-[11px] font-mono text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>THE 33RD CYCLE // NISB CORE SELECTION PORTAL</span>
-          <span className="text-slate-600">PostgreSQL • Spring Boot 3.3.4 • React 19</span>
+          <span>THE 33RD CYCLE // NISB PORTAL</span>
+          <span className="text-slate-600">CHRONOS Anomaly Engine</span>
         </div>
       </footer>
     </div>

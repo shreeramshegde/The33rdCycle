@@ -77,7 +77,7 @@ export default function RulesModal({ isOpen, onClose }) {
                 4. Temporal Freeze
               </span>
               <span>
-                The IEEE Core Team reserves the right to freeze the portal at critical milestones. When frozen, submissions are locked.
+                NISB Event Control reserves the right to freeze the portal at critical milestones. When frozen, submissions are locked.
               </span>
             </div>
           </div>

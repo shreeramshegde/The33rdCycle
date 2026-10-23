@@ -45,7 +45,7 @@ export default function LoginPage({ onLoginSuccess }) {
         <div className="text-center mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-cyan-500/30 text-cyan-400 text-[10px] sm:text-xs font-mono tracking-wider uppercase mb-3 shadow-sm shadow-cyan-950">
             <Terminal className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span>NISB // IEEE CORE SELECTION</span>
+            <span>NISB // INVESTIGATION PORTAL</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-1.5 font-mono">
             THE 33RD CYCLE

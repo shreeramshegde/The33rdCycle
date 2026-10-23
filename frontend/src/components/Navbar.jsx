@@ -24,7 +24,7 @@ export default function Navbar({
                 THE 33RD CYCLE
               </span>
               <span className="hidden md:inline-block text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
-                NISB IEEE
+                NISB
               </span>
             </div>
 
