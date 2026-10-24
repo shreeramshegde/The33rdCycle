@@ -1,5 +1,6 @@
-import React from 'react';
-import { Shield, LogOut, RefreshCw, HelpCircle, Award } from 'lucide-react';
+import React, { useState } from 'react';
+import { Shield, LogOut, RefreshCw, HelpCircle, Award, Volume2, VolumeX } from 'lucide-react';
+import { isSoundMuted, toggleSound, playRelayClick } from '../services/soundFx';
 
 export default function Navbar({
   teamData,
@@ -10,6 +11,14 @@ export default function Navbar({
   onOpenRules,
   onLogout,
 }) {
+  const [muted, setMuted] = useState(isSoundMuted());
+
+  const handleToggleSound = () => {
+    const newState = toggleSound();
+    setMuted(newState);
+    if (!newState) playRelayClick();
+  };
+
   return (
     <header className="sticky top-0 z-40 bg-[#10131a]/95 backdrop-blur-md border-b border-[#282d3b] shadow-lg">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
@@ -49,8 +58,8 @@ export default function Navbar({
               ) : (
                 <span className="text-emerald-400 font-medium tracking-wide flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                  <span className="hidden sm:inline">DOSSIER ENGINE ACTIVE</span>
-                  <span className="sm:hidden text-emerald-400/90">ACTIVE</span>
+                  <span className="hidden sm:inline">EVIDENCE ENGINE ACTIVE</span>
+                  <span className="sm:hidden text-emerald-400/90">ONLINE</span>
                 </span>
               )}
             </div>
@@ -73,9 +82,25 @@ export default function Navbar({
             <span>{totalScore} <span className="text-[10px] font-normal text-amber-400/80">PTS</span></span>
           </div>
 
+          {/* Sound Audio FX Toggle */}
+          <button
+            onClick={handleToggleSound}
+            title={muted ? 'Enable Terminal Audio' : 'Mute Audio'}
+            className="p-1.5 sm:p-2 rounded-lg bg-[#181c26] active:bg-[#202533] border border-[#282d3b] text-[#9ba4b4] hover:text-amber-300 transition-colors cursor-pointer"
+          >
+            {muted ? (
+              <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-500" />
+            ) : (
+              <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
+            )}
+          </button>
+
           {/* Quick Refresh */}
           <button
-            onClick={onRefresh}
+            onClick={() => {
+              playRelayClick();
+              onRefresh();
+            }}
             disabled={refreshing}
             title="Refresh Progress"
             className="p-1.5 sm:p-2 rounded-lg bg-[#181c26] active:bg-[#202533] border border-[#282d3b] text-[#9ba4b4] hover:text-amber-300 transition-colors cursor-pointer"
@@ -85,8 +110,11 @@ export default function Navbar({
 
           {/* Rules / Directives */}
           <button
-            onClick={onOpenRules}
-            title="Investigation Rules"
+            onClick={() => {
+              playRelayClick();
+              onOpenRules();
+            }}
+            title="Investigation Directives"
             className="p-1.5 sm:p-2 rounded-lg bg-[#181c26] active:bg-[#202533] border border-[#282d3b] text-[#9ba4b4] hover:text-amber-300 transition-colors cursor-pointer"
           >
             <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -94,7 +122,10 @@ export default function Navbar({
 
           {/* Logout */}
           <button
-            onClick={onLogout}
+            onClick={() => {
+              playRelayClick();
+              onLogout();
+            }}
             title="Exit Session"
             className="p-1.5 sm:p-2 rounded-lg bg-[#181c26] active:bg-rose-950/60 border border-[#282d3b] hover:border-rose-500/40 text-[#9ba4b4] hover:text-rose-300 transition-colors cursor-pointer"
           >

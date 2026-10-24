@@ -6,6 +6,7 @@ import ProgressBar from './components/ProgressBar';
 import CheckpointCard from './components/CheckpointCard';
 import ActivityLog from './components/ActivityLog';
 import RulesModal from './components/RulesModal';
+import SurveillanceHUD from './components/SurveillanceHUD';
 import { AlertTriangle, Lock, ShieldAlert } from 'lucide-react';
 
 export default function App() {
@@ -109,9 +110,14 @@ export default function App() {
     }
   };
 
-  // If not authenticated, render LoginPage
+  // If not authenticated, render maximalist LoginPage
   if (!token) {
-    return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+    return (
+      <>
+        <SurveillanceHUD />
+        <LoginPage onLoginSuccess={handleLoginSuccess} />
+      </>
+    );
   }
 
   const checkpoints = progress?.checkpoints || [];
@@ -119,7 +125,16 @@ export default function App() {
   const isPortalFrozen = progress?.isPortalFrozen ?? false;
 
   return (
-    <div className="min-h-screen bg-[#0d0f14] chronos-grid text-[#dbd4cb] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#0d0f14] chronos-grid text-[#dbd4cb] flex flex-col font-sans relative overflow-x-hidden">
+      {/* Cinematic Surveillance HUD & Ambient Particles */}
+      <SurveillanceHUD />
+
+      {/* Subtle Background Poster Vignette */}
+      <div
+        className="fixed inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none filter blur-sm scale-105"
+        style={{ backgroundImage: `url('/poster.jpg')` }}
+      />
+
       {/* Top Navbar */}
       <Navbar
         teamData={team}
@@ -132,10 +147,10 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-6 space-y-3.5 sm:space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-6 space-y-3.5 sm:space-y-6 relative z-10">
         {/* Portal Frozen Critical Banner */}
         {isPortalFrozen && (
-          <div className="p-4 rounded-xl bg-rose-950/50 border border-rose-500/50 text-rose-200 flex items-center justify-between gap-3 shadow-lg shadow-rose-950/30 animate-pulse">
+          <div className="p-4 rounded-xl bg-rose-950/60 border border-rose-500/60 text-rose-200 flex items-center justify-between gap-3 shadow-lg shadow-rose-950/40 animate-pulse">
             <div className="flex items-center gap-3">
               <ShieldAlert className="w-5 h-5 text-rose-400 shrink-0" />
               <div>
@@ -161,7 +176,7 @@ export default function App() {
 
         {/* Loading Spinner during initial fetch */}
         {loading && !progress ? (
-          <div className="py-20 flex flex-col items-center justify-center space-y-3 font-mono text-amber-400">
+          <div className="py-24 flex flex-col items-center justify-center space-y-3 font-mono text-amber-400">
             <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
             <span className="text-xs tracking-widest uppercase">Synchronizing Investigation Dossier...</span>
           </div>
@@ -174,10 +189,10 @@ export default function App() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#8b92a2]">
-                  INVESTIGATION SEQUENCE (6 CHECKPOINTS)
+                  EVIDENCE DOSSIER REPOSITORY (6 CHECKPOINTS)
                 </span>
                 <span className="text-[11px] font-mono text-amber-400/90">
-                  Open Investigation • Attend any checkpoint in any order
+                  Open Investigation • Solve in any order
                 </span>
               </div>
 
@@ -203,7 +218,7 @@ export default function App() {
       <RulesModal isOpen={showRules} onClose={() => setShowRules(false)} />
 
       {/* Noir Minimal Footer */}
-      <footer className="border-t border-[#282d3b] bg-[#10131a]/90 py-4 text-center text-[11px] font-mono text-[#8b92a2]">
+      <footer className="border-t border-[#282d3b] bg-[#10131a]/95 py-4 text-center text-[11px] font-mono text-[#8b92a2] relative z-10">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>THE 33RD CYCLE • NISB PORTAL</span>
           <span className="text-slate-600">CHRONOS Anomaly Engine</span>
