@@ -147,12 +147,15 @@ export default function App() {
       {/* Background Cinematic Atmosphere Engine (Zero interference with layout) */}
       <SurveillanceHUD />
 
-      {/* Atmospheric Archive Room Background */}
+      {/* Desktop Atmospheric Archive Room Background */}
       <div
-        className="fixed inset-0 bg-cover bg-center opacity-[0.18] pointer-events-none filter blur-[1.5px] scale-105 z-0"
+        className="hidden md:block fixed inset-0 bg-cover bg-center opacity-[0.16] pointer-events-none filter blur-[1px] scale-105 z-0"
         style={{ backgroundImage: `url('/archive-room.png')` }}
       />
-      <div className="fixed inset-0 bg-gradient-to-b from-[#0d0f14]/85 via-transparent to-[#0d0f14]/90 pointer-events-none z-0" />
+      <div className="hidden md:block fixed inset-0 bg-gradient-to-b from-[#0d0f14]/85 via-transparent to-[#0d0f14]/90 pointer-events-none z-0" />
+
+      {/* Mobile Portrait Atmosphere: Clean amber top glow to prevent awkward 3x zooming */}
+      <div className="md:hidden fixed inset-0 bg-[#0d0f14] bg-[radial-gradient(circle_at_top,rgba(217,119,6,0.10)_0%,transparent_50%)] pointer-events-none z-0" />
 
       {/* Top Navbar */}
       <Navbar

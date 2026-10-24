@@ -56,16 +56,53 @@ export default function LoginPage({ onLoginSuccess }) {
 
   return (
     <div className="min-h-screen chronos-grid flex items-center justify-center p-3 sm:p-4 relative overflow-hidden bg-[#0d0f14]">
-      {/* Cinematic Archive Room Background with Depth Vignette */}
-      <div
-        className="absolute inset-0 bg-cover bg-center pointer-events-none scale-105 filter blur-[0.5px] transition-all duration-1000"
-        style={{ backgroundImage: `url('/archive-room.png')` }}
-      />
-      {/* Layered noir gradients: preserves room details at edges while keeping center login card perfectly readable */}
-      <div className="absolute inset-0 bg-[#0d0f14]/45 pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(13,15,20,0.70)_0%,rgba(13,15,20,0.92)_100%)] pointer-events-none" />
+      {/* Desktop Landscape Background Video (Plays cleanly on landscape/laptop screens) */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        poster="/archive-room.png"
+        className="hidden md:block absolute inset-0 w-full h-full object-cover filter brightness-[0.75] pointer-events-none"
+      >
+        <source src="/archive-feed.mp4" type="video/mp4" />
+      </video>
 
-      <div className="w-full max-w-md z-10 my-auto py-6">
+      {/* Desktop Layered noir gradients: preserves room details at edges while keeping center login card perfectly readable */}
+      <div className="hidden md:block absolute inset-0 bg-[#0d0f14]/40 pointer-events-none" />
+      <div className="hidden md:block absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(13,15,20,0.65)_0%,rgba(13,15,20,0.92)_100%)] pointer-events-none" />
+
+      {/* Mobile Portrait Atmosphere: Ambient warm amber top spotlight & clean noir gradient */}
+      <div className="md:hidden absolute inset-0 bg-[#0d0f14] bg-[radial-gradient(circle_at_top,rgba(217,119,6,0.14)_0%,transparent_65%)] pointer-events-none" />
+
+      <div className="w-full max-w-md z-10 my-auto py-3 sm:py-6">
+        {/* Mobile-Only 16:9 Landscape Surveillance Feed Monitor */}
+        {/* Solves portrait mobile cropping: plays the full landscape surveillance video in its native 16:9 ratio right above the login box */}
+        <div className="md:hidden mb-3.5 rounded-xl overflow-hidden border border-[#282d3b] bg-black shadow-2xl relative aspect-video">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster="/archive-room.png"
+            className="w-full h-full object-cover"
+          >
+            <source src="/archive-feed.mp4" type="video/mp4" />
+          </video>
+          {/* Subtle CRT scanline effect */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.30)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
+          {/* Top Live Badge */}
+          <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/75 backdrop-blur-sm px-2 py-0.5 rounded border border-white/10 font-dossier text-[10px] text-amber-300 font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
+            <span>CAM-03 • ARCHIVE VAULT</span>
+          </div>
+          <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-[#dbd4cb]/80 bg-black/60 px-1.5 py-0.5 rounded">
+            SIGNAL: 99.4%
+          </div>
+        </div>
+
         {/* Header Badge with Official NISB Logo */}
         <div className="text-center mb-5 sm:mb-7">
           <div className="inline-flex items-center justify-center p-2.5 rounded-2xl bg-[#141720]/90 border border-[#282d3b] mb-3 shadow-xl backdrop-blur-md">

@@ -139,12 +139,12 @@ export function SurveillanceBar() {
         {/* Left: Feed info & Live indicator (Clickable to inspect camera) */}
         <button
           onClick={() => setShowFeedModal(true)}
-          className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors cursor-pointer group text-left"
+          className="flex items-center gap-1.5 sm:gap-2 text-amber-400 hover:text-amber-300 transition-colors cursor-pointer group text-left min-w-0"
           title="Inspect Surveillance Intercept Feed"
         >
-          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-          <span className="font-bold tracking-wider font-dossier text-xs group-hover:underline">CAM-03 • ARCHIVE ROOM</span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center gap-1 font-mono">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shrink-0" />
+          <span className="font-bold tracking-wider font-dossier text-xs group-hover:underline truncate">CAM-03 • ARCHIVE</span>
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center gap-1 font-mono shrink-0">
             <Eye className="w-3 h-3" /> FEED
           </span>
           <span className="text-slate-600 hidden sm:inline">•</span>
@@ -164,10 +164,10 @@ export function SurveillanceBar() {
         </div>
 
         {/* Right: Elapsed Stopwatch & UTC clock */}
-        <div className="flex items-center gap-3 text-[#dbd4cb]">
-          <span className="text-amber-400/90 font-semibold">REC {elapsed}</span>
-          <span className="text-slate-600">•</span>
-          <span className="text-[#8b92a2]">{timeStr}</span>
+        <div className="flex items-center gap-2 sm:gap-3 text-[#dbd4cb] shrink-0 text-[10px] sm:text-[11px]">
+          <span className="text-amber-400/90 font-semibold font-mono">REC {elapsed}</span>
+          <span className="text-slate-600 hidden xs:inline">•</span>
+          <span className="text-[#8b92a2] font-mono hidden xs:inline">{timeStr}</span>
         </div>
       </div>
 
@@ -188,13 +188,18 @@ export function SurveillanceBar() {
               </button>
             </div>
             <div className="relative aspect-video bg-black overflow-hidden select-none">
-              <img
-                src="/archive-room.png"
-                alt="CAM 03 Archive Room"
+              <video
+                src="/archive-feed.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                controls
+                poster="/archive-room.png"
                 className="w-full h-full object-cover"
               />
               {/* Subtle CRT scanline effect */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.30)_50%)] bg-[length:100%_4px] pointer-events-none opacity-50" />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
             </div>
             <div className="p-3 bg-[#0d0f14] border-t border-[#282d3b] flex items-center justify-between text-xs text-[#8b92a2] font-mono">
               <span>LOCATION: NIE ARCHIVE • SECTOR 33</span>
