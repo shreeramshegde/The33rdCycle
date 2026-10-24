@@ -77,33 +77,7 @@ export default function LoginPage({ onLoginSuccess }) {
       <div className="md:hidden absolute inset-0 bg-[#0d0f14] bg-[radial-gradient(circle_at_top,rgba(217,119,6,0.14)_0%,transparent_65%)] pointer-events-none" />
 
       <div className="w-full max-w-md z-10 my-auto py-3 sm:py-6">
-        {/* Mobile-Only 16:9 Landscape Surveillance Feed Monitor */}
-        {/* Solves portrait mobile cropping: plays the full landscape surveillance video in its native 16:9 ratio right above the login box */}
-        <div className="md:hidden mb-3.5 rounded-xl overflow-hidden border border-[#282d3b] bg-black shadow-2xl relative aspect-video">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            poster="/archive-room.png"
-            className="w-full h-full object-cover"
-          >
-            <source src="/archive-feed.mp4" type="video/mp4" />
-          </video>
-          {/* Subtle CRT scanline effect */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.30)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
-          {/* Top Live Badge */}
-          <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/75 backdrop-blur-sm px-2 py-0.5 rounded border border-white/10 font-dossier text-[10px] text-amber-300 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
-            <span>CAM-03 • ARCHIVE VAULT</span>
-          </div>
-          <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-[#dbd4cb]/80 bg-black/60 px-1.5 py-0.5 rounded">
-            SIGNAL: 99.4%
-          </div>
-        </div>
-
-        {/* Header Badge with Official NISB Logo */}
+        {/* Header Badge with Official NISB Logo (First thing visible on both Mobile and Desktop) */}
         <div className="text-center mb-5 sm:mb-7">
           <div className="inline-flex items-center justify-center p-2.5 rounded-2xl bg-[#141720]/90 border border-[#282d3b] mb-3 shadow-xl backdrop-blur-md">
             <img
@@ -255,10 +229,50 @@ export default function LoginPage({ onLoginSuccess }) {
           </div>
         </div>
 
+        {/* Mobile-Only 16:9 Landscape Surveillance Feed Monitor at the Bottom */}
+        {/* Placed below the login card so the official logo and credentials are the primary focal point */}
+        <div className="md:hidden mt-4 rounded-xl overflow-hidden border border-[#282d3b] bg-black shadow-2xl relative aspect-video">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster="/archive-room.png"
+            className="w-full h-full object-cover"
+          >
+            <source src="/archive-feed.mp4" type="video/mp4" />
+          </video>
+          {/* Subtle CRT scanline effect */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.30)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
+          {/* Top Live Badge */}
+          <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/75 backdrop-blur-sm px-2 py-0.5 rounded border border-white/10 font-dossier text-[10px] text-amber-300 font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
+            <span>CAM-03 • LIVE ARCHIVE FEED</span>
+          </div>
+          <div className="absolute bottom-1.5 right-2 font-mono text-[9px] text-[#dbd4cb]/80 bg-black/60 px-1.5 py-0.5 rounded">
+            SIGNAL: 99.4%
+          </div>
+        </div>
+
         {/* Footer Credit */}
-        <div className="text-center mt-5 text-slate-600 text-xs">
+        <div className="text-center mt-4 text-slate-600 text-xs">
           <span>NISB © 2026 • The 33rd Cycle</span>
         </div>
+      </div>
+
+      {/* Desktop Ambient NISB Watermark Bug (Anchored on bottom-right over video watermark) */}
+      <div className="hidden md:flex absolute bottom-5 right-6 z-10 items-center gap-2.5 pointer-events-none select-none">
+        <div className="w-8 h-8 rounded-full bg-black/70 border border-white/20 backdrop-blur-md p-1.5 shadow-xl flex items-center justify-center">
+          <img
+            src="/nisb-logo-white.png"
+            alt="NISB"
+            className="w-full h-full object-contain filter drop-shadow blur-[0.2px] opacity-90"
+          />
+        </div>
+        <span className="font-dossier text-xs text-amber-400/80 tracking-widest font-bold uppercase drop-shadow">
+          NISB ARCHIVES
+        </span>
       </div>
     </div>
   );

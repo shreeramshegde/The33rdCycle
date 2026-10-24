@@ -200,6 +200,12 @@ export function SurveillanceBar() {
               />
               {/* Subtle CRT scanline effect */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
+
+              {/* NISB Archive Watermark Badge on bottom-right */}
+              <div className="absolute bottom-3 right-3 pointer-events-none flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-2 py-1 rounded border border-white/10 opacity-90 select-none">
+                <img src="/nisb-logo-white.png" alt="NISB" className="w-4 h-4 object-contain filter drop-shadow blur-[0.2px]" />
+                <span className="font-dossier text-[10px] text-amber-300 font-bold tracking-wider">NISB ARCHIVE</span>
+              </div>
             </div>
             <div className="p-3 bg-[#0d0f14] border-t border-[#282d3b] flex items-center justify-between text-xs text-[#8b92a2] font-mono">
               <span>LOCATION: NIE ARCHIVE • SECTOR 33</span>
