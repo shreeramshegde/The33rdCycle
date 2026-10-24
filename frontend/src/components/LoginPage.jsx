@@ -56,12 +56,14 @@ export default function LoginPage({ onLoginSuccess }) {
 
   return (
     <div className="min-h-screen chronos-grid flex items-center justify-center p-3 sm:p-4 relative overflow-hidden bg-[#0d0f14]">
-      {/* Background Poster Ambience (Noir Vignette Layer) */}
+      {/* Cinematic Archive Room Background with Depth Vignette */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none scale-105 filter blur-sm"
-        style={{ backgroundImage: `url('/poster.jpg')` }}
+        className="absolute inset-0 bg-cover bg-center pointer-events-none scale-105 filter blur-[0.5px] transition-all duration-1000"
+        style={{ backgroundImage: `url('/archive-room.png')` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f14] via-[#0d0f14]/85 to-[#0d0f14]/90 pointer-events-none" />
+      {/* Layered noir gradients: preserves room details at edges while keeping center login card perfectly readable */}
+      <div className="absolute inset-0 bg-[#0d0f14]/45 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(13,15,20,0.70)_0%,rgba(13,15,20,0.92)_100%)] pointer-events-none" />
 
       <div className="w-full max-w-md z-10 my-auto py-6">
         {/* Header Badge with Official NISB Logo */}

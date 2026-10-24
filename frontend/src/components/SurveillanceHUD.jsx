@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Eye, X } from 'lucide-react';
 
 export default function SurveillanceHUD() {
   const canvasRef = useRef(null);
@@ -112,6 +113,7 @@ export default function SurveillanceHUD() {
 export function SurveillanceBar() {
   const [timeStr, setTimeStr] = useState('');
   const [elapsed, setElapsed] = useState('00:00:00');
+  const [showFeedModal, setShowFeedModal] = useState(false);
 
   useEffect(() => {
     const startTimestamp = Date.now();
@@ -132,33 +134,75 @@ export function SurveillanceBar() {
   }, []);
 
   return (
-    <div className="w-full bg-[#10141d]/90 border border-[#282d3b] rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] shadow-md relative z-10 backdrop-blur-md">
-      {/* Left: Feed info & Live indicator */}
-      <div className="flex items-center gap-2 text-amber-400">
-        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-        <span className="font-bold tracking-wider font-dossier text-xs">CAM-03 • NIE EVIDENCE ARCHIVE</span>
-        <span className="text-slate-600 hidden sm:inline">•</span>
-        <span className="text-[#8b92a2] hidden sm:inline font-mono">SIGNAL 99.4%</span>
-      </div>
+    <>
+      <div className="w-full bg-[#10141d]/90 border border-[#282d3b] rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] shadow-md relative z-10 backdrop-blur-md">
+        {/* Left: Feed info & Live indicator (Clickable to inspect camera) */}
+        <button
+          onClick={() => setShowFeedModal(true)}
+          className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors cursor-pointer group text-left"
+          title="Inspect Surveillance Intercept Feed"
+        >
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+          <span className="font-bold tracking-wider font-dossier text-xs group-hover:underline">CAM-03 • ARCHIVE ROOM</span>
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center gap-1 font-mono">
+            <Eye className="w-3 h-3" /> FEED
+          </span>
+          <span className="text-slate-600 hidden sm:inline">•</span>
+          <span className="text-[#8b92a2] hidden sm:inline font-mono">SIGNAL 99.4%</span>
+        </button>
 
-      {/* Center: Live Waveform Visualizer */}
-      <div className="hidden md:flex items-center gap-2 text-[#8b92a2]">
-        <span className="text-[10px]">FREQ: 1420.4 MHz</span>
-        <div className="flex items-end gap-0.5 h-3">
-          <span className="w-0.5 h-2 bg-amber-400 animate-[pulse_1s_infinite_100ms]" />
-          <span className="w-0.5 h-3 bg-amber-400 animate-[pulse_1s_infinite_300ms]" />
-          <span className="w-0.5 h-1.5 bg-amber-400 animate-[pulse_1s_infinite_200ms]" />
-          <span className="w-0.5 h-2.5 bg-amber-400 animate-[pulse_1s_infinite_400ms]" />
-          <span className="w-0.5 h-1 bg-amber-400 animate-[pulse_1s_infinite_150ms]" />
+        {/* Center: Live Waveform Visualizer */}
+        <div className="hidden md:flex items-center gap-2 text-[#8b92a2]">
+          <span className="text-[10px]">FREQ: 1420.4 MHz</span>
+          <div className="flex items-end gap-0.5 h-3">
+            <span className="w-0.5 h-2 bg-amber-400 animate-[pulse_1s_infinite_100ms]" />
+            <span className="w-0.5 h-3 bg-amber-400 animate-[pulse_1s_infinite_300ms]" />
+            <span className="w-0.5 h-1.5 bg-amber-400 animate-[pulse_1s_infinite_200ms]" />
+            <span className="w-0.5 h-2.5 bg-amber-400 animate-[pulse_1s_infinite_400ms]" />
+            <span className="w-0.5 h-1 bg-amber-400 animate-[pulse_1s_infinite_150ms]" />
+          </div>
+        </div>
+
+        {/* Right: Elapsed Stopwatch & UTC clock */}
+        <div className="flex items-center gap-3 text-[#dbd4cb]">
+          <span className="text-amber-400/90 font-semibold">REC {elapsed}</span>
+          <span className="text-slate-600">•</span>
+          <span className="text-[#8b92a2]">{timeStr}</span>
         </div>
       </div>
 
-      {/* Right: Elapsed Stopwatch & UTC clock */}
-      <div className="flex items-center gap-3 text-[#dbd4cb]">
-        <span className="text-amber-400/90 font-semibold">REC {elapsed}</span>
-        <span className="text-slate-600">•</span>
-        <span className="text-[#8b92a2]">{timeStr}</span>
-      </div>
-    </div>
+      {/* Surveillance Camera Modal Popup */}
+      {showFeedModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+          <div className="bg-[#141720] border border-[#282d3b] rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl relative">
+            <div className="p-3 sm:p-4 border-b border-[#282d3b] flex items-center justify-between bg-[#10131a]">
+              <div className="flex items-center gap-2 text-amber-400 font-dossier text-xs sm:text-sm font-bold tracking-wider">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
+                <span>CAM 03 • EVIDENCE ARCHIVE VAULT</span>
+              </div>
+              <button
+                onClick={() => setShowFeedModal(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-[#1f2432] transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="relative aspect-video bg-black overflow-hidden select-none">
+              <img
+                src="/archive-room.png"
+                alt="CAM 03 Archive Room"
+                className="w-full h-full object-cover"
+              />
+              {/* Subtle CRT scanline effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.30)_50%)] bg-[length:100%_4px] pointer-events-none opacity-50" />
+            </div>
+            <div className="p-3 bg-[#0d0f14] border-t border-[#282d3b] flex items-center justify-between text-xs text-[#8b92a2] font-mono">
+              <span>LOCATION: NIE ARCHIVE • SECTOR 33</span>
+              <span className="text-amber-400/90 font-dossier tracking-wider">INTERCEPT ACTIVE</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

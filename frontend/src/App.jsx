@@ -147,11 +147,12 @@ export default function App() {
       {/* Background Cinematic Atmosphere Engine (Zero interference with layout) */}
       <SurveillanceHUD />
 
-      {/* Subtle Background Poster Vignette */}
+      {/* Atmospheric Archive Room Background */}
       <div
-        className="fixed inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none filter blur-sm scale-105 z-0"
-        style={{ backgroundImage: `url('/poster.jpg')` }}
+        className="fixed inset-0 bg-cover bg-center opacity-[0.18] pointer-events-none filter blur-[1.5px] scale-105 z-0"
+        style={{ backgroundImage: `url('/archive-room.png')` }}
       />
+      <div className="fixed inset-0 bg-gradient-to-b from-[#0d0f14]/85 via-transparent to-[#0d0f14]/90 pointer-events-none z-0" />
 
       {/* Top Navbar */}
       <Navbar
