@@ -143,7 +143,7 @@ export default function App() {
   const isPortalFrozen = progress?.isPortalFrozen ?? false;
 
   return (
-    <div className="min-h-screen bg-[#0d0f14] chronos-grid text-[#dbd4cb] flex flex-col font-serif relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#0d0f14] chronos-grid text-[#dbd4cb] flex flex-col relative overflow-x-hidden">
       {/* Background Cinematic Atmosphere Engine (Zero interference with layout) */}
       <SurveillanceHUD />
 
@@ -165,20 +165,20 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-6 space-y-3.5 sm:space-y-5 relative z-10 font-serif">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-6 space-y-3.5 sm:space-y-5 relative z-10">
         {/* Surveillance Telemetry Ribbon (Sits neatly in layout flow - NO overlapping) */}
         <SurveillanceBar />
 
         {/* Portal Frozen Critical Banner */}
         {isPortalFrozen && (
-          <div className="p-4 rounded-xl bg-rose-950/60 border border-rose-500/60 text-rose-200 flex items-center justify-between gap-3 shadow-lg shadow-rose-950/40 animate-pulse font-serif">
+          <div className="p-4 rounded-xl bg-rose-950/60 border border-rose-500/60 text-rose-200 flex items-center justify-between gap-3 shadow-lg shadow-rose-950/40 animate-pulse">
             <div className="flex items-center gap-3">
               <ShieldAlert className="w-5 h-5 text-rose-400 shrink-0" />
               <div>
-                <span className="font-serif font-bold text-xs uppercase tracking-wide block">
+                <span className="font-bold text-xs uppercase tracking-wide block">
                   TEMPORAL LOCKOUT ACTIVE • PORTAL FROZEN
                 </span>
-                <span className="text-xs text-rose-300 font-serif">
+                <span className="text-xs text-rose-300">
                   Submissions are temporarily suspended by NISB Control. Scoring is halted.
                 </span>
               </div>
@@ -189,7 +189,7 @@ export default function App() {
 
         {/* Global Error Banner */}
         {error && (
-          <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-xs font-serif flex items-center gap-2.5">
+          <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-xs flex items-center gap-2.5">
             <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
             <span>{error}</span>
           </div>
@@ -197,7 +197,7 @@ export default function App() {
 
         {/* Loading Spinner during initial fetch */}
         {loading && !progress ? (
-          <div className="py-24 flex flex-col items-center justify-center space-y-3 font-serif text-amber-400">
+          <div className="py-24 flex flex-col items-center justify-center space-y-3 text-amber-400">
             <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
             <span className="text-sm tracking-widest uppercase">Synchronizing Investigation Dossier...</span>
           </div>
@@ -209,10 +209,10 @@ export default function App() {
             {/* Checkpoint Cards Grid */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-serif font-bold uppercase tracking-wider text-[#8b92a2]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#8b92a2]">
                   EVIDENCE DOSSIER REPOSITORY (6 CHECKPOINTS)
                 </span>
-                <span className="text-xs font-serif text-amber-400/90">
+                <span className="text-xs text-amber-400/90">
                   Open Investigation • Solve in any order
                 </span>
               </div>
@@ -239,7 +239,7 @@ export default function App() {
       <RulesModal isOpen={showRules} onClose={() => setShowRules(false)} />
 
       {/* Noir Minimal Footer */}
-      <footer className="border-t border-[#282d3b] bg-[#10131a]/95 py-4 text-center text-xs font-serif text-[#8b92a2] relative z-10">
+      <footer className="border-t border-[#282d3b] bg-[#10131a]/95 py-4 text-center text-xs text-[#8b92a2] relative z-10">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>THE 33RD CYCLE • NISB PORTAL</span>
           <span className="text-slate-600">CHRONOS Anomaly Engine</span>

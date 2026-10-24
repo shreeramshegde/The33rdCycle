@@ -5,8 +5,8 @@ export default function RulesModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn font-serif">
-      <div className="bg-[#141720] border border-[#282d3b] rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl relative font-serif">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+      <div className="bg-[#141720] border border-[#282d3b] rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl relative">
         {/* Top Accent Line */}
         <div className="h-1 bg-gradient-to-r from-amber-600 via-amber-500 to-emerald-400 w-full" />
 
@@ -14,7 +14,7 @@ export default function RulesModal({ isOpen, onClose }) {
         <div className="p-5 sm:p-6 border-b border-[#282d3b] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <ShieldAlert className="w-5 h-5 text-amber-400" />
-            <h3 className="text-base sm:text-lg font-bold text-[#dbd4cb] tracking-wide uppercase font-serif">
+            <h3 className="text-base sm:text-lg font-bold text-[#dbd4cb] tracking-wide uppercase">
               CHRONOS PROTOCOL DIRECTIVES
             </h3>
           </div>
@@ -27,7 +27,7 @@ export default function RulesModal({ isOpen, onClose }) {
         </div>
 
         {/* Content */}
-        <div className="p-5 sm:p-6 space-y-4 text-sm text-[#dbd4cb] leading-relaxed max-h-[75vh] overflow-y-auto font-serif">
+        <div className="p-5 sm:p-6 space-y-4 text-sm text-[#dbd4cb] leading-relaxed max-h-[75vh] overflow-y-auto">
           {/* Directive 1 */}
           <div className="p-3.5 rounded-xl bg-[#0b0d12]/80 border border-[#282d3b] flex items-start gap-3">
             <FileText className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
@@ -49,9 +49,9 @@ export default function RulesModal({ isOpen, onClose }) {
                 2. Scoring Matrix
               </span>
               <ul className="list-disc list-inside space-y-1 text-[#8b92a2] mt-1 text-xs sm:text-sm">
-                <li>Initial Allocation: <strong className="text-white">100 Points</strong></li>
-                <li>Verified Checkpoint: <strong className="text-emerald-400">+20 Points</strong></li>
-                <li>Incorrect Attempt Penalty: <strong className="text-rose-400">-5 Points</strong> per wrong submission</li>
+                <li>Initial Allocation: <strong className="text-white font-mono">100 Points</strong></li>
+                <li>Verified Checkpoint: <strong className="text-emerald-400 font-mono">+20 Points</strong></li>
+                <li>Incorrect Attempt Penalty: <strong className="text-rose-400 font-mono">-5 Points</strong> per wrong submission</li>
               </ul>
             </div>
           </div>
@@ -100,7 +100,7 @@ export default function RulesModal({ isOpen, onClose }) {
         <div className="p-4 bg-[#0b0d12] border-t border-[#282d3b] flex justify-end">
           <button
             onClick={onClose}
-            className="w-full sm:w-auto px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-serif font-bold text-xs sm:text-sm rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
+            className="w-full sm:w-auto px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
           >
             ACKNOWLEDGE & RETURN
           </button>

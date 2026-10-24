@@ -7,14 +7,14 @@ export default function ProgressBar({ checkpoints = [] }) {
   const percent = Math.round((completedCount / total) * 100);
 
   return (
-    <div className="bg-[#141720]/90 border border-[#282d3b] rounded-xl p-3 sm:p-5 backdrop-blur-sm font-serif">
+    <div className="bg-[#141720]/90 border border-[#282d3b] rounded-xl p-3 sm:p-5 backdrop-blur-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
         <div>
-          <span className="text-xs uppercase tracking-wider text-[#8b92a2] block font-serif">
+          <span className="text-xs uppercase tracking-wider text-[#8b92a2] block">
             Investigation Progress • Free Sequence
           </span>
-          <h2 className="text-sm sm:text-lg font-bold font-serif text-[#dbd4cb]">
-            {completedCount} of {total} Checkpoints Solved ({percent}%)
+          <h2 className="text-sm sm:text-lg font-bold text-[#dbd4cb]">
+            <span className="font-mono">{completedCount}</span> of <span className="font-mono">{total}</span> Checkpoints Solved (<span className="font-mono text-amber-400">{percent}%</span>)
           </h2>
         </div>
 
@@ -40,7 +40,7 @@ export default function ProgressBar({ checkpoints = [] }) {
                   : 'bg-[#0e1017] border-[#282d3b] text-[#8b92a2]'
               }`}
             >
-              <div className="text-[10px] font-serif font-bold">
+              <div className="text-[10px] font-bold font-mono">
                 {idx === 0 ? 'CASE 0' : `CP ${idx}`}
               </div>
               <div className="flex justify-center mt-0.5">
@@ -56,7 +56,7 @@ export default function ProgressBar({ checkpoints = [] }) {
       </div>
 
       {/* Tablet & Desktop Stepper Grid */}
-      <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-1 font-serif">
+      <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-1">
         {checkpoints.map((cp, idx) => {
           const isCompleted = cp.isCompleted;
 
@@ -71,7 +71,7 @@ export default function ProgressBar({ checkpoints = [] }) {
             >
               <div className="flex items-center justify-between gap-1 mb-1">
                 <span className="text-[11px] tracking-wider uppercase font-semibold text-[#8b92a2]">
-                  Stage {idx}
+                  Stage <span className="font-mono">{idx}</span>
                 </span>
                 {isCompleted ? (
                   <FolderCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -79,7 +79,7 @@ export default function ProgressBar({ checkpoints = [] }) {
                   <Folder className="w-3.5 h-3.5 text-amber-400/80 shrink-0" />
                 )}
               </div>
-              <div className="text-xs sm:text-sm font-serif font-medium truncate">
+              <div className="text-xs sm:text-sm font-medium truncate">
                 {cp.stageLabel || `Checkpoint ${idx}`}
               </div>
               <div className="text-xs mt-0.5">

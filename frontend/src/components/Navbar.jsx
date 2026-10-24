@@ -22,7 +22,7 @@ export default function Navbar({
   return (
     <header className="sticky top-0 z-40 bg-[#10131a]/95 backdrop-blur-md border-b border-[#282d3b] shadow-lg">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Left: NISB Logo & Event Title in Classic Georgia Serif */}
+        {/* Left: NISB Logo & Event Title */}
         <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
           <div className="h-8 sm:h-9 px-2 rounded-lg bg-[#181c26] border border-[#2d3444] flex items-center justify-center shrink-0 shadow-sm">
             <img
@@ -33,16 +33,16 @@ export default function Navbar({
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="font-serif font-bold text-sm sm:text-lg tracking-wider text-[#dbd4cb] truncate">
+              <span className="font-bold text-xs sm:text-base tracking-tight text-[#dbd4cb] truncate">
                 THE 33RD CYCLE
               </span>
-              <span className="hidden md:inline-block text-[10px] font-serif px-1.5 py-0.5 rounded bg-[#1f2430] text-[#a4adbf] border border-[#2d3444]">
+              <span className="hidden md:inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#1f2430] text-[#a4adbf] border border-[#2d3444] tracking-wide">
                 NISB
               </span>
             </div>
 
             {/* Subtitle / Status / Mobile Team Label */}
-            <div className="flex items-center gap-1.5 text-[11px] font-serif">
+            <div className="flex items-center gap-1.5 text-[11px]">
               {/* On mobile: display active team code */}
               <span className="sm:hidden text-amber-400 font-bold truncate max-w-[95px] font-mono">
                 {teamData?.identifier || teamData?.teamCode}
@@ -69,17 +69,17 @@ export default function Navbar({
         {/* Right: Team Info, Score & Actions */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Desktop Team Badge */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#181c26] border border-[#282d3b] text-xs text-[#dbd4cb] font-serif">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#181c26] border border-[#282d3b] text-xs text-[#dbd4cb]">
             <Shield className="w-3.5 h-3.5 text-amber-400" />
-            <span className="font-bold font-mono">{teamData?.identifier || teamData?.teamCode}</span>
+            <span className="font-bold font-mono text-amber-400">{teamData?.identifier || teamData?.teamCode}</span>
             <span className="text-slate-600">•</span>
-            <span className="text-[#9ba4b4] truncate max-w-[120px]">{teamData?.displayName || teamData?.teamName}</span>
+            <span className="text-[#9ba4b4] truncate max-w-[120px] font-medium">{teamData?.displayName || teamData?.teamName}</span>
           </div>
 
           {/* Warm Amber Dossier Total Score Badge */}
-          <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#241c12] border border-amber-600/50 text-amber-300 font-serif font-bold text-xs sm:text-sm shadow-sm shadow-amber-950/40">
+          <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#241c12] border border-amber-600/50 text-amber-300 font-bold text-xs sm:text-sm shadow-sm shadow-amber-950/40">
             <Award className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span><span className="font-mono">{totalScore}</span> <span className="text-[10px] font-normal text-amber-400/80">PTS</span></span>
+            <span><span className="font-mono tracking-tight">{totalScore}</span> <span className="text-[10px] font-semibold text-amber-400/80 tracking-wide">PTS</span></span>
           </div>
 
           {/* Sound Audio FX Toggle */}
