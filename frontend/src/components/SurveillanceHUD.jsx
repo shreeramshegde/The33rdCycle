@@ -136,7 +136,7 @@ export function SurveillanceBar() {
       {/* Left: Feed info & Live indicator */}
       <div className="flex items-center gap-2 text-amber-400">
         <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-        <span className="font-bold tracking-wider">CAM-03 // NIE EVIDENCE ARCHIVE</span>
+        <span className="font-bold tracking-wider">CAM-03 • NIE EVIDENCE ARCHIVE</span>
         <span className="text-slate-600 hidden sm:inline">•</span>
         <span className="text-[#8b92a2] hidden sm:inline">SIGNAL 99.4%</span>
       </div>

@@ -212,7 +212,7 @@ export default function LoginPage({ onLoginSuccess }) {
           {/* Barcode Footer Accent */}
           <div className="mt-3 pt-2 border-t border-[#282d3b]/50 flex items-center justify-between text-[9px] font-mono text-slate-600 select-none">
             <span>||| | |||| | || |||||</span>
-            <span>CHRONOS ARCHIVES // 2026</span>
+            <span>CHRONOS ARCHIVES • 2026</span>
           </div>
         </div>
 

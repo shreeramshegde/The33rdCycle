@@ -256,7 +256,7 @@ export default function CheckpointCard({
           <div className="flex items-center gap-0.5 tracking-tighter">
             <span className="text-slate-500">||| | |||| | || ||||| | |||</span>
           </div>
-          <span className="tracking-widest">33-CYCLE // CHRONOS</span>
+          <span className="tracking-widest">33-CYCLE • CHRONOS</span>
         </div>
       </div>
     </div>
