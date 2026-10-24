@@ -6,8 +6,9 @@ import ProgressBar from './components/ProgressBar';
 import CheckpointCard from './components/CheckpointCard';
 import ActivityLog from './components/ActivityLog';
 import RulesModal from './components/RulesModal';
-import SurveillanceHUD from './components/SurveillanceHUD';
+import SurveillanceHUD, { SurveillanceBar } from './components/SurveillanceHUD';
 import { AlertTriangle, Lock, ShieldAlert } from 'lucide-react';
+import { startAmbientDrone, isSoundMuted } from './services/soundFx';
 
 export default function App() {
   const [token, setToken] = useState(getStoredToken());
@@ -18,6 +19,23 @@ export default function App() {
   const [error, setError] = useState('');
   const [logs, setLogs] = useState([]);
   const [showRules, setShowRules] = useState(false);
+
+  // Auto-start ambient drone if unmuted on first interaction
+  useEffect(() => {
+    const handleFirstGesture = () => {
+      if (!isSoundMuted()) {
+        startAmbientDrone();
+      }
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
+    };
+    window.addEventListener('click', handleFirstGesture);
+    window.addEventListener('keydown', handleFirstGesture);
+    return () => {
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
+    };
+  }, []);
 
   // Fetch live team progress from backend
   const loadProgress = useCallback(async (isBackground = false) => {
@@ -113,10 +131,10 @@ export default function App() {
   // If not authenticated, render maximalist LoginPage
   if (!token) {
     return (
-      <>
+      <div className="relative min-h-screen">
         <SurveillanceHUD />
         <LoginPage onLoginSuccess={handleLoginSuccess} />
-      </>
+      </div>
     );
   }
 
@@ -126,12 +144,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0d0f14] chronos-grid text-[#dbd4cb] flex flex-col font-sans relative overflow-x-hidden">
-      {/* Cinematic Surveillance HUD & Ambient Particles */}
+      {/* Background Cinematic Atmosphere Engine (Zero interference with layout) */}
       <SurveillanceHUD />
 
       {/* Subtle Background Poster Vignette */}
       <div
-        className="fixed inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none filter blur-sm scale-105"
+        className="fixed inset-0 bg-cover bg-center opacity-[0.06] pointer-events-none filter blur-sm scale-105 z-0"
         style={{ backgroundImage: `url('/poster.jpg')` }}
       />
 
@@ -147,7 +165,10 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-6 space-y-3.5 sm:space-y-6 relative z-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-6 space-y-3.5 sm:space-y-5 relative z-10">
+        {/* Surveillance Telemetry Ribbon (Sits neatly in layout flow - NO overlapping) */}
+        <SurveillanceBar />
+
         {/* Portal Frozen Critical Banner */}
         {isPortalFrozen && (
           <div className="p-4 rounded-xl bg-rose-950/60 border border-rose-500/60 text-rose-200 flex items-center justify-between gap-3 shadow-lg shadow-rose-950/40 animate-pulse">

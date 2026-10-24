@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, Send, AlertTriangle, FolderOpen, Info, ShieldCheck, Lock } from 'lucide-react';
+import { CheckCircle2, Send, AlertTriangle, FolderOpen, Info, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { playKeyClick, playRelayClick, playSuccessChime, playErrorBuzz } from '../services/soundFx';
 
@@ -74,7 +74,7 @@ export default function CheckpointCard({
         <svg viewBox="0 0 16 36" fill="none" className="w-full h-full drop-shadow-md">
           <path
             d="M5 2C2.79086 2 1 3.79086 1 6V28C1 31.866 4.13401 35 8 35C11.866 35 15 31.866 15 28V9C15 6.23858 12.7614 4 10 4C7.23858 4 5 6.23858 5 9V26C5 27.6569 6.34315 29 8 29C9.65685 29 11 27.6569 11 26V10"
-            stroke="#b45309"
+            stroke="#d97706"
             strokeWidth="2"
             strokeLinecap="round"
           />
@@ -92,21 +92,21 @@ export default function CheckpointCard({
           <span className="text-[#8b92a2]">REF: NISB-33</span>
         </div>
 
-        {/* Security Classification Badge */}
-        <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-black/40 text-amber-400/90 border border-[#282d3b] mr-8">
-          CLEARANCE L3
+        {/* Meaningful Checkpoint Reward Badge (Replaced redundant Clearance L3) */}
+        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-600/50 mr-8 tracking-wider">
+          VALUE: +20 PTS
         </span>
       </div>
 
       <div className="p-4 sm:p-5 relative flex-1 flex flex-col justify-between">
-        {/* Rubber Stamp Watermark */}
-        <div className="absolute right-3 bottom-14 pointer-events-none select-none opacity-15 rotate-[-12deg] z-0">
+        {/* Bold Weathered Rubber Stamp Watermark */}
+        <div className="absolute right-3 bottom-12 pointer-events-none select-none rotate-[-12deg] z-0">
           {isCompleted ? (
-            <div className="border-4 border-emerald-500 text-emerald-400 font-mono font-black text-2xl tracking-widest px-4 py-1 uppercase rounded-md border-dashed">
+            <div className="border-4 border-double border-emerald-400 text-emerald-400 font-mono font-black text-2xl sm:text-3xl tracking-widest px-4 py-1.5 uppercase rounded-lg shadow-xl drop-shadow-[0_0_12px_rgba(16,185,129,0.35)] opacity-40">
               VERIFIED
             </div>
           ) : (
-            <div className="border-4 border-amber-500 text-amber-400 font-mono font-black text-2xl tracking-widest px-4 py-1 uppercase rounded-md border-dashed">
+            <div className="border-4 border-double border-amber-500 text-amber-400 font-mono font-black text-2xl sm:text-3xl tracking-widest px-4 py-1.5 uppercase rounded-lg shadow-xl drop-shadow-[0_0_12px_rgba(245,158,11,0.35)] opacity-45">
               CLASSIFIED
             </div>
           )}

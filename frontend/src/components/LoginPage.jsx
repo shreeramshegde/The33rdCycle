@@ -63,13 +63,13 @@ export default function LoginPage({ onLoginSuccess }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f14] via-[#0d0f14]/85 to-[#0d0f14]/90 pointer-events-none" />
 
-      {/* Retro Surveillance Top HUD */}
-      <div className="absolute top-3 left-3 sm:top-5 sm:left-6 flex items-center gap-2 text-[10px] sm:text-xs font-mono text-amber-500/60 z-20">
-        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-        <span className="tracking-widest">FEED 01 • NISB TEMPORAL ARCHIVES</span>
-      </div>
-
       <div className="w-full max-w-md z-10 my-auto py-6">
+        {/* Retro Surveillance Header Status */}
+        <div className="flex items-center justify-center gap-2 text-[10px] sm:text-xs font-mono text-amber-500/70 mb-3 select-none">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+          <span className="tracking-widest">FEED 01 // NISB EVIDENCE ARCHIVES</span>
+        </div>
+
         {/* Header Badge with Official NISB Logo */}
         <div className="text-center mb-5 sm:mb-7">
           <div className="inline-flex items-center justify-center p-2.5 rounded-2xl bg-[#141720]/90 border border-[#282d3b] mb-3 shadow-xl backdrop-blur-md">

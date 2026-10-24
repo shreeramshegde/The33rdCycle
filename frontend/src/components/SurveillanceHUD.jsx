@@ -2,29 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 export default function SurveillanceHUD() {
   const canvasRef = useRef(null);
-  const [timeStr, setTimeStr] = useState('');
-  const [elapsed, setElapsed] = useState('00:00:00');
 
-  // Live UTC Clock & Session Elapsed Timer
-  useEffect(() => {
-    const startTimestamp = Date.now();
-    const updateTime = () => {
-      const now = new Date();
-      setTimeStr(now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC');
-
-      const diffSec = Math.floor((Date.now() - startTimestamp) / 1000);
-      const hrs = String(Math.floor(diffSec / 3600)).padStart(2, '0');
-      const mins = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
-      const secs = String(diffSec % 60).padStart(2, '0');
-      setElapsed(`${hrs}:${mins}:${secs}`);
-    };
-
-    updateTime();
-    const timer = setInterval(updateTime, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Ambient Dust Motes Canvas (Noir Cinematic Archive Room Effect)
+  // Cinematic Noir Dust Particles & Flashlight Sweeping Beam Engine
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -42,44 +21,69 @@ export default function SurveillanceHUD() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Create 35 drifting subtle dust motes
-    const particles = Array.from({ length: 35 }, () => ({
+    // 80 High-energy atmospheric particles (amber embers & parchment dust)
+    const particles = Array.from({ length: 80 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 2 + 0.6,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: Math.random() * -0.4 - 0.1, // float upward softly
-      alpha: Math.random() * 0.45 + 0.15,
-      fadeSpeed: Math.random() * 0.008 + 0.003,
+      size: Math.random() * 2.8 + 0.8,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: Math.random() * -0.7 - 0.2, // drifting upward like warm embers
+      alpha: Math.random() * 0.7 + 0.2,
+      fadeSpeed: Math.random() * 0.012 + 0.005,
       fadeDir: Math.random() > 0.5 ? 1 : -1,
+      isEmber: Math.random() > 0.65, // 35% are glowing amber embers
     }));
+
+    let beamAngle = 0;
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
+      // Subtle atmospheric flashlight sweep
+      beamAngle += 0.003;
+      const beamX = width * 0.5 + Math.cos(beamAngle) * (width * 0.4);
+      const beamY = height * 0.4 + Math.sin(beamAngle * 0.7) * (height * 0.25);
+      const grad = ctx.createRadialGradient(beamX, beamY, 20, beamX, beamY, width * 0.65);
+      grad.addColorStop(0, 'rgba(217, 119, 6, 0.04)'); // soft warm spotlight
+      grad.addColorStop(0.5, 'rgba(180, 83, 9, 0.015)');
+      grad.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Render 80 particles
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
 
         // Fade pulse
         p.alpha += p.fadeSpeed * p.fadeDir;
-        if (p.alpha > 0.6) {
-          p.alpha = 0.6;
+        if (p.alpha > 0.85) {
+          p.alpha = 0.85;
           p.fadeDir = -1;
-        } else if (p.alpha < 0.1) {
-          p.alpha = 0.1;
+        } else if (p.alpha < 0.15) {
+          p.alpha = 0.15;
           p.fadeDir = 1;
         }
 
-        // Wrap around boundaries
+        // Boundary wrap
         if (p.y < 0) p.y = height;
         if (p.x < 0) p.x = width;
         if (p.x > width) p.x = 0;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(219, 212, 203, ${p.alpha})`; // warm parchment dust
+
+        if (p.isEmber) {
+          ctx.fillStyle = `rgba(245, 158, 11, ${p.alpha})`; // glowing amber
+          ctx.shadowColor = '#f59e0b';
+          ctx.shadowBlur = 6;
+        } else {
+          ctx.fillStyle = `rgba(219, 212, 203, ${p.alpha})`; // aged parchment
+          ctx.shadowBlur = 0;
+        }
+
         ctx.fill();
+        ctx.shadowBlur = 0; // reset
       });
 
       animId = requestAnimationFrame(render);
@@ -94,38 +98,66 @@ export default function SurveillanceHUD() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-30 overflow-hidden select-none">
-      {/* Ambient Canvas for Floating Dust Particles */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-60" />
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none">
+      {/* High-Power Ambient Canvas for Floating Dust & Embers */}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-80" />
 
-      {/* Subtle CRT Scanline Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_60%,rgba(13,15,20,0.85)_100%)] pointer-events-none" />
+      {/* Cinematic Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_50%,rgba(13,15,20,0.92)_100%)] pointer-events-none" />
+    </div>
+  );
+}
 
-      {/* Surveillance HUD Viewfinder Corners */}
-      <div className="absolute top-2 left-2 sm:top-4 sm:left-4 text-amber-500/40 text-xs font-mono">
-        ⌜ CAM_03 [LIVE]
-      </div>
-      <div className="absolute top-2 right-2 sm:top-4 sm:right-4 text-amber-500/40 text-xs font-mono">
-        {timeStr} ⌝
-      </div>
-      <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 text-amber-500/30 text-[10px] sm:text-xs font-mono">
-        ⌞ NISB ARCHIVE FILE #33
-      </div>
-      <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 text-amber-500/30 text-[10px] sm:text-xs font-mono">
-        REC {elapsed} ⌟
+// Separate Non-Overlapping Surveillance Bar component placed cleanly in layout flow
+export function SurveillanceBar() {
+  const [timeStr, setTimeStr] = useState('');
+  const [elapsed, setElapsed] = useState('00:00:00');
+
+  useEffect(() => {
+    const startTimestamp = Date.now();
+    const updateTime = () => {
+      const now = new Date();
+      setTimeStr(now.toISOString().replace('T', ' ').substring(11, 19) + ' UTC');
+
+      const diffSec = Math.floor((Date.now() - startTimestamp) / 1000);
+      const hrs = String(Math.floor(diffSec / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
+      const secs = String(diffSec % 60).padStart(2, '0');
+      setElapsed(`${hrs}:${mins}:${secs}`);
+    };
+
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="w-full bg-[#10141d]/90 border border-[#282d3b] rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] shadow-md relative z-10 backdrop-blur-md">
+      {/* Left: Feed info & Live indicator */}
+      <div className="flex items-center gap-2 text-amber-400">
+        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+        <span className="font-bold tracking-wider">CAM-03 // NIE EVIDENCE ARCHIVE</span>
+        <span className="text-slate-600 hidden sm:inline">•</span>
+        <span className="text-[#8b92a2] hidden sm:inline">SIGNAL 99.4%</span>
       </div>
 
-      {/* Live Audio Telemetry Waveform Graphic */}
-      <div className="hidden lg:flex items-center gap-1.5 absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#141720]/80 border border-[#282d3b] text-[10px] font-mono text-amber-400/80">
-        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-        <span className="tracking-widest">INTERCEPTED FREQ: 1420.405 MHz</span>
-        <div className="flex items-end gap-0.5 h-3 ml-2">
+      {/* Center: Live Waveform Visualizer */}
+      <div className="hidden md:flex items-center gap-2 text-[#8b92a2]">
+        <span className="text-[10px]">FREQ: 1420.4 MHz</span>
+        <div className="flex items-end gap-0.5 h-3">
           <span className="w-0.5 h-2 bg-amber-400 animate-[pulse_1s_infinite_100ms]" />
           <span className="w-0.5 h-3 bg-amber-400 animate-[pulse_1s_infinite_300ms]" />
           <span className="w-0.5 h-1.5 bg-amber-400 animate-[pulse_1s_infinite_200ms]" />
           <span className="w-0.5 h-2.5 bg-amber-400 animate-[pulse_1s_infinite_400ms]" />
           <span className="w-0.5 h-1 bg-amber-400 animate-[pulse_1s_infinite_150ms]" />
         </div>
+      </div>
+
+      {/* Right: Elapsed Stopwatch & UTC clock */}
+      <div className="flex items-center gap-3 text-[#dbd4cb]">
+        <span className="text-amber-400/90 font-semibold">REC {elapsed}</span>
+        <span className="text-slate-600">•</span>
+        <span className="text-[#8b92a2]">{timeStr}</span>
       </div>
     </div>
   );
