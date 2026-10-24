@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: Georgia, "Times New Roman", Times, "EB Garamond", serif;
+  --font-sans: Georgia, "Times New Roman", Times, "EB Garamond", serif;
+  --font-mono: "Courier Prime", "Courier New", Courier, monospace;
+}
+
 @layer base {
   :root {
     --bg-noir: #0d0f14;
@@ -19,7 +25,7 @@
   html, body {
     background-color: var(--bg-noir);
     color: var(--text-parchment);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Georgia, "Times New Roman", Times, "EB Garamond", serif;
     min-height: 100vh;
     min-height: -webkit-fill-available;
     overflow-x: hidden;
@@ -31,6 +37,7 @@
   input[type="text"],
   input[type="password"] {
     font-size: 16px;
+    font-family: "Courier Prime", "Courier New", Courier, monospace;
   }
   @media (min-width: 640px) {
     input[type="text"],

@@ -55,7 +55,7 @@ export default function LoginPage({ onLoginSuccess }) {
   };
 
   return (
-    <div className="min-h-screen chronos-grid flex items-center justify-center p-3 sm:p-4 relative overflow-hidden bg-[#0d0f14]">
+    <div className="min-h-screen chronos-grid flex items-center justify-center p-3 sm:p-4 relative overflow-hidden bg-[#0d0f14] font-serif">
       {/* Background Poster Ambience (Noir Vignette Layer) */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none scale-105 filter blur-sm"
@@ -73,14 +73,14 @@ export default function LoginPage({ onLoginSuccess }) {
               className="h-10 sm:h-12 w-auto object-contain drop-shadow"
             />
           </div>
-          <div className="text-[10px] sm:text-xs font-mono tracking-widest uppercase text-amber-400 mb-1 flex items-center justify-center gap-1.5">
-            <Radio className="w-3 h-3 text-amber-400 animate-pulse" />
+          <div className="text-xs tracking-widest uppercase text-amber-400 mb-1 flex items-center justify-center gap-1.5 font-serif font-bold">
+            <Radio className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
             <span>NISB • INVESTIGATION DOSSIER</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#dbd4cb] font-mono">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#dbd4cb] font-serif">
             THE 33RD CYCLE
           </h1>
-          <p className="text-[11px] sm:text-xs text-[#8b92a2] tracking-wider uppercase font-mono mt-1">
+          <p className="text-xs text-[#8b92a2] tracking-wider uppercase font-serif mt-1">
             Physical Evidence Anomaly Portal
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
           {/* Rubber Stamp Watermark */}
           <div className="absolute right-4 top-14 pointer-events-none select-none opacity-10 rotate-[-15deg] z-0">
-            <div className="border-4 border-amber-500 text-amber-400 font-mono font-black text-2xl tracking-widest px-3 py-1 uppercase rounded-md border-dashed">
+            <div className="border-4 border-amber-500 text-amber-400 font-serif font-black text-2xl tracking-widest px-3 py-1 uppercase rounded-md border-dashed">
               EVIDENCE DESK
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function LoginPage({ onLoginSuccess }) {
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-rose-950/50 border border-rose-500/50 text-rose-300 text-xs flex items-start gap-2.5 font-mono animate-fadeIn">
+            <div className="mb-4 p-3 rounded-lg bg-rose-950/50 border border-rose-500/50 text-rose-300 text-xs flex items-start gap-2.5 font-serif animate-fadeIn">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
@@ -118,7 +118,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
           <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
             <div>
-              <label className="block text-[11px] sm:text-xs font-mono uppercase tracking-wider text-[#dbd4cb] mb-1.5">
+              <label className="block text-xs font-serif uppercase tracking-wider text-[#dbd4cb] mb-1.5 font-bold">
                 Team Code Identifier
               </label>
               <div className="relative">
@@ -141,7 +141,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
               {/* Quick Select Chips */}
               <div className="mt-2 flex flex-wrap gap-1 items-center">
-                <span className="text-[10px] text-slate-500 font-mono mr-1">Quick:</span>
+                <span className="text-[10px] text-slate-500 font-serif mr-1">Quick:</span>
                 {QUICK_TEAMS.slice(0, 6).map((code) => (
                   <button
                     key={code}
@@ -157,10 +157,10 @@ export default function LoginPage({ onLoginSuccess }) {
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-[#dbd4cb]">
+                <label className="text-xs font-serif uppercase tracking-wider text-[#dbd4cb] font-bold">
                   Access Password
                 </label>
-                <span className="text-[10px] font-mono text-amber-400/90 flex items-center gap-1 font-semibold">
+                <span className="text-[11px] font-serif text-amber-400/90 flex items-center gap-1 font-semibold">
                   <Lock className="w-3 h-3" /> Set on 1st login
                 </span>
               </div>
@@ -177,7 +177,7 @@ export default function LoginPage({ onLoginSuccess }) {
                   required
                 />
               </div>
-              <p className="mt-1.5 text-[10px] text-[#8b92a2] font-mono leading-normal">
+              <p className="mt-1.5 text-xs text-[#8b92a2] font-serif leading-normal">
                 First login binds your team password permanently. Memorize it for subsequent logins.
               </p>
             </div>
@@ -185,7 +185,7 @@ export default function LoginPage({ onLoginSuccess }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 py-3 px-4 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 active:scale-98 text-slate-950 font-mono font-bold text-xs tracking-wider uppercase rounded-lg shadow-lg shadow-amber-950/50 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full mt-2 py-3 px-4 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 active:scale-98 text-slate-950 font-serif font-bold text-xs sm:text-sm tracking-wider uppercase rounded-lg shadow-lg shadow-amber-950/50 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {loading ? (
                 <>
@@ -203,21 +203,21 @@ export default function LoginPage({ onLoginSuccess }) {
 
           {/* Physical Envelope Directive Notice */}
           <div className="mt-5 pt-4 border-t border-[#282d3b] text-center">
-            <p className="text-[10px] sm:text-[11px] text-[#8b92a2] font-mono flex items-center justify-center gap-1.5 leading-relaxed">
-              <FileText className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <p className="text-xs text-[#8b92a2] font-serif flex items-center justify-center gap-1.5 leading-relaxed">
+              <FileText className="w-4 h-4 text-amber-400 shrink-0" />
               <span>Questions are in physical dossiers. Use this portal for answer verification.</span>
             </p>
           </div>
 
           {/* Barcode Footer Accent */}
-          <div className="mt-3 pt-2 border-t border-[#282d3b]/50 flex items-center justify-between text-[9px] font-mono text-slate-600 select-none">
+          <div className="mt-3 pt-2 border-t border-[#282d3b]/50 flex items-center justify-between text-[10px] font-mono text-slate-600 select-none">
             <span>||| | |||| | || |||||</span>
-            <span>CHRONOS ARCHIVES • 2026</span>
+            <span className="font-serif">CHRONOS ARCHIVES • 2026</span>
           </div>
         </div>
 
         {/* Footer Credit */}
-        <div className="text-center mt-5 text-slate-600 text-[10px] sm:text-[11px] font-mono">
+        <div className="text-center mt-5 text-slate-600 text-xs font-serif">
           <span>NISB © 2026 • The 33rd Cycle</span>
         </div>
       </div>
