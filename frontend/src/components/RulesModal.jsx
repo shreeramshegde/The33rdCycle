@@ -14,7 +14,7 @@ export default function RulesModal({ isOpen, onClose }) {
         <div className="p-5 sm:p-6 border-b border-[#282d3b] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <ShieldAlert className="w-5 h-5 text-amber-400" />
-            <h3 className="text-base sm:text-lg font-bold text-[#dbd4cb] tracking-wide uppercase">
+            <h3 className="text-base sm:text-lg font-bold text-[#dbd4cb] tracking-wider uppercase font-dossier">
               CHRONOS PROTOCOL DIRECTIVES
             </h3>
           </div>
@@ -100,7 +100,7 @@ export default function RulesModal({ isOpen, onClose }) {
         <div className="p-4 bg-[#0b0d12] border-t border-[#282d3b] flex justify-end">
           <button
             onClick={onClose}
-            className="w-full sm:w-auto px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
+            className="w-full sm:w-auto px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-dossier font-bold text-sm rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
           >
             ACKNOWLEDGE & RETURN
           </button>

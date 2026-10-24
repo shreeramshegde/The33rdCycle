@@ -17,7 +17,7 @@ export default function ActivityLog({ logs = [] }) {
       >
         <div className="flex items-center gap-2">
           <History className="w-3.5 h-3.5 text-amber-400" />
-          <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#dbd4cb]">
+          <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#dbd4cb] font-dossier">
             Submission Activity Log (<span className="font-mono">{logs.length}</span>)
           </span>
         </div>

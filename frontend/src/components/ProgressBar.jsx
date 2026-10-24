@@ -10,8 +10,8 @@ export default function ProgressBar({ checkpoints = [] }) {
     <div className="bg-[#141720]/90 border border-[#282d3b] rounded-xl p-3 sm:p-5 backdrop-blur-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
         <div>
-          <span className="text-xs uppercase tracking-wider text-[#8b92a2] block">
-            Investigation Progress • Free Sequence
+          <span className="text-xs uppercase tracking-wider text-[#8b92a2] block font-dossier font-semibold">
+            INVESTIGATION PROGRESS • FREE SEQUENCE
           </span>
           <h2 className="text-sm sm:text-lg font-bold text-[#dbd4cb]">
             <span className="font-mono">{completedCount}</span> of <span className="font-mono">{total}</span> Checkpoints Solved (<span className="font-mono text-amber-400">{percent}%</span>)
@@ -70,7 +70,7 @@ export default function ProgressBar({ checkpoints = [] }) {
               }`}
             >
               <div className="flex items-center justify-between gap-1 mb-1">
-                <span className="text-[11px] tracking-wider uppercase font-semibold text-[#8b92a2]">
+                <span className="text-[11px] tracking-wider uppercase font-bold text-[#8b92a2] font-dossier">
                   Stage <span className="font-mono">{idx}</span>
                 </span>
                 {isCompleted ? (
@@ -82,11 +82,11 @@ export default function ProgressBar({ checkpoints = [] }) {
               <div className="text-xs sm:text-sm font-medium truncate">
                 {cp.stageLabel || `Checkpoint ${idx}`}
               </div>
-              <div className="text-xs mt-0.5">
+              <div className="text-xs mt-0.5 font-dossier">
                 {isCompleted ? (
-                  <span className="text-emerald-400 font-semibold">VERIFIED</span>
+                  <span className="text-emerald-400 font-bold tracking-wider">VERIFIED</span>
                 ) : (
-                  <span className="text-amber-400/80">OPEN</span>
+                  <span className="text-amber-400/80 font-bold tracking-wider">OPEN</span>
                 )}
               </div>
             </div>

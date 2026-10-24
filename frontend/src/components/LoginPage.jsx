@@ -73,14 +73,14 @@ export default function LoginPage({ onLoginSuccess }) {
               className="h-10 sm:h-12 w-auto object-contain drop-shadow"
             />
           </div>
-          <div className="text-xs font-semibold tracking-wider uppercase text-amber-400 mb-1 flex items-center justify-center gap-1.5">
+          <div className="text-xs font-bold tracking-wider uppercase text-amber-400 mb-1 flex items-center justify-center gap-1.5 font-dossier">
             <Radio className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
             <span>NISB • INVESTIGATION DOSSIER</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#dbd4cb]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wider text-[#dbd4cb] font-dossier">
             THE 33RD CYCLE
           </h1>
-          <p className="text-xs text-[#8b92a2] tracking-wider uppercase mt-1 font-medium">
+          <p className="text-xs text-[#8b92a2] tracking-widest uppercase mt-1 font-semibold font-dossier">
             Physical Evidence Anomaly Portal
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
           {/* Rubber Stamp Watermark */}
           <div className="absolute right-4 top-14 pointer-events-none select-none opacity-10 rotate-[-15deg] z-0">
-            <div className="border-4 border-amber-500 text-amber-400 font-mono font-black text-2xl tracking-widest px-3 py-1 uppercase rounded-md border-dashed">
+            <div className="border-4 border-amber-500 text-amber-400 font-dossier font-black text-2xl tracking-[0.25em] px-3 py-1 uppercase rounded-md border-dashed">
               EVIDENCE DESK
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
           <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#dbd4cb] mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#dbd4cb] mb-1.5 font-dossier">
                 Team Code Identifier
               </label>
               <div className="relative">
@@ -156,12 +156,12 @@ export default function LoginPage({ onLoginSuccess }) {
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-[#dbd4cb]">
+              <div className="flex items-center justify-between mb-1.5 font-dossier">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#dbd4cb]">
                   Access Password
                 </label>
                 <span className="text-[11px] text-amber-400/90 flex items-center gap-1 font-semibold">
-                  <Lock className="w-3 h-3" /> Set on 1st login
+                  <Lock className="w-3 h-3" /> SET ON 1ST LOGIN
                 </span>
               </div>
               <div className="relative">
@@ -185,7 +185,7 @@ export default function LoginPage({ onLoginSuccess }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 py-3 px-4 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 active:scale-98 text-slate-950 font-bold text-xs sm:text-sm tracking-wider uppercase rounded-lg shadow-lg shadow-amber-950/50 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full mt-2 py-3 px-4 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 active:scale-98 text-slate-950 font-dossier font-bold text-sm tracking-widest uppercase rounded-lg shadow-lg shadow-amber-950/50 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {loading ? (
                 <>

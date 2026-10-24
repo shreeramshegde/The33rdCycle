@@ -208,11 +208,11 @@ export default function App() {
 
             {/* Checkpoint Cards Grid */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#8b92a2]">
+              <div className="flex items-center justify-between font-dossier">
+                <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#dbd4cb]">
                   EVIDENCE DOSSIER REPOSITORY (6 CHECKPOINTS)
                 </span>
-                <span className="text-xs text-amber-400/90">
+                <span className="text-xs text-amber-400/90 tracking-wide font-medium">
                   Open Investigation • Solve in any order
                 </span>
               </div>

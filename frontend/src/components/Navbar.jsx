@@ -33,10 +33,10 @@ export default function Navbar({
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="font-bold text-xs sm:text-base tracking-tight text-[#dbd4cb] truncate">
+              <span className="font-extrabold text-xs sm:text-base tracking-wider text-[#dbd4cb] truncate font-dossier">
                 THE 33RD CYCLE
               </span>
-              <span className="hidden md:inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#1f2430] text-[#a4adbf] border border-[#2d3444] tracking-wide">
+              <span className="hidden md:inline-block text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#1f2430] text-[#a4adbf] border border-[#2d3444] tracking-widest font-dossier">
                 NISB
               </span>
             </div>
@@ -50,13 +50,13 @@ export default function Navbar({
               <span className="sm:hidden text-slate-600">•</span>
 
               {isPortalFrozen ? (
-                <span className="text-rose-400 font-semibold tracking-wide flex items-center gap-1">
+                <span className="text-rose-400 font-bold tracking-wider flex items-center gap-1 font-dossier">
                   <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping shrink-0" />
                   <span className="hidden xs:inline">PORTAL FROZEN</span>
                   <span className="xs:hidden">FROZEN</span>
                 </span>
               ) : (
-                <span className="text-emerald-400 font-medium tracking-wide flex items-center gap-1">
+                <span className="text-emerald-400 font-bold tracking-wider flex items-center gap-1 font-dossier">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
                   <span className="hidden sm:inline">EVIDENCE ENGINE ACTIVE</span>
                   <span className="sm:hidden text-emerald-400/90">ONLINE</span>
