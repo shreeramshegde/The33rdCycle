@@ -18,7 +18,7 @@ public class Team {
     @Column(name = "team_name", nullable = false, length = 100)
     private String teamName;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "password_hash")
     private String passwordHash;
 
     @Column(name = "total_score", nullable = false)

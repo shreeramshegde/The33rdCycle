@@ -94,26 +94,25 @@ INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_ali
 -- -----------------------------------------------------------------------------
 -- 4. 10 COMPETITION TEAMS + 5 DUMMY / TEST BENCH TEAMS
 -- Starting Score: 100 Points
--- Default Password for all teams: team123
--- (BCrypt Hash: $2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G)
+-- Initial Password: NULL (Claimed by each team dynamically upon first login)
 -- -----------------------------------------------------------------------------
 INSERT INTO teams (team_code, team_name, password_hash, total_score, completed_checkpoints, is_active) VALUES
 -- 10 Competition Teams
-('TEAM_01', 'Paradox Seekers', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_02', 'Quantum Observers', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_03', 'Temporal Shift', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_04', 'Entropy Wardens', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_05', 'Chronos Vanguard', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_06', 'Singularity Unit', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_07', 'Event Horizon', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_08', 'Causal Loop', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_09', 'Tachyon Pulse', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('TEAM_10', 'Zero Point', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
+('TEAM_01', 'Paradox Seekers', NULL, 100, 0, TRUE),
+('TEAM_02', 'Quantum Observers', NULL, 100, 0, TRUE),
+('TEAM_03', 'Temporal Shift', NULL, 100, 0, TRUE),
+('TEAM_04', 'Entropy Wardens', NULL, 100, 0, TRUE),
+('TEAM_05', 'Chronos Vanguard', NULL, 100, 0, TRUE),
+('TEAM_06', 'Singularity Unit', NULL, 100, 0, TRUE),
+('TEAM_07', 'Event Horizon', NULL, 100, 0, TRUE),
+('TEAM_08', 'Causal Loop', NULL, 100, 0, TRUE),
+('TEAM_09', 'Tachyon Pulse', NULL, 100, 0, TRUE),
+('TEAM_10', 'Zero Point', NULL, 100, 0, TRUE),
 
 -- 5 Dummy / Test Bench Teams
-('DUMMY_01', 'IEEE Test Alpha', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('DUMMY_02', 'IEEE Test Beta', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('DUMMY_03', 'IEEE Test Gamma', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('DUMMY_04', 'IEEE Test Delta', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE),
-('DUMMY_05', 'IEEE Test Epsilon', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 100, 0, TRUE)
+('DUMMY_01', 'IEEE Test Alpha', NULL, 100, 0, TRUE),
+('DUMMY_02', 'IEEE Test Beta', NULL, 100, 0, TRUE),
+('DUMMY_03', 'IEEE Test Gamma', NULL, 100, 0, TRUE),
+('DUMMY_04', 'IEEE Test Delta', NULL, 100, 0, TRUE),
+('DUMMY_05', 'IEEE Test Epsilon', NULL, 100, 0, TRUE)
 ON CONFLICT (team_code) DO NOTHING;

@@ -140,6 +140,22 @@ public class AdminService {
         teamRepository.deleteById(teamId);
     }
 
+    @Transactional
+    public void resetTeamPassword(UUID teamId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new IllegalArgumentException("Team not found"));
+        team.setPasswordHash(null);
+        teamRepository.save(team);
+    }
+
+    @Transactional
+    public void resetTeamPasswordByCode(String teamCode) {
+        Team team = teamRepository.findByTeamCode(teamCode.trim().toUpperCase())
+                .orElseThrow(() -> new IllegalArgumentException("Team not found with code: " + teamCode));
+        team.setPasswordHash(null);
+        teamRepository.save(team);
+    }
+
     @Transactional(readOnly = true)
     public List<Checkpoint> getAllCheckpoints() {
         return checkpointRepository.findAllByOrderByOrderIndexAsc();

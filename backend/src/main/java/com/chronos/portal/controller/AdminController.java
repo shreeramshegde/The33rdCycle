@@ -104,6 +104,20 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse(true, "Checkpoint reset for team."));
     }
 
+    @PostMapping("/teams/{teamId}/reset-password")
+    @Operation(summary = "Reset Team Password (by UUID)", description = "Clears the password hash so the team can set a new password upon login")
+    public ResponseEntity<ApiResponse> resetTeamPassword(@PathVariable UUID teamId) {
+        adminService.resetTeamPassword(teamId);
+        return ResponseEntity.ok(new ApiResponse(true, "Team password cleared. Team can set a new password on login."));
+    }
+
+    @PostMapping("/teams/code/{teamCode}/reset-password")
+    @Operation(summary = "Reset Team Password (by Team Code, e.g. TEAM_01)", description = "Convenient shortcut to clear password by team code like TEAM_01")
+    public ResponseEntity<ApiResponse> resetTeamPasswordByCode(@PathVariable String teamCode) {
+        adminService.resetTeamPasswordByCode(teamCode);
+        return ResponseEntity.ok(new ApiResponse(true, "Password cleared for " + teamCode.toUpperCase() + ". Team can set a new password on login."));
+    }
+
     // -------------------------------------------------------------------------
     // 4. CHECKPOINT & ANSWER MANAGEMENT
     // -------------------------------------------------------------------------

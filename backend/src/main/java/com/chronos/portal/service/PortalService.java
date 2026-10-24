@@ -4,6 +4,7 @@ import com.chronos.portal.dto.request.SubmitAnswerRequest;
 import com.chronos.portal.dto.response.CheckpointStatusDTO;
 import com.chronos.portal.dto.response.SubmissionResultResponse;
 import com.chronos.portal.dto.response.TeamProgressResponse;
+import com.chronos.portal.dto.response.TeamSubmissionDTO;
 import com.chronos.portal.entity.Checkpoint;
 import com.chronos.portal.entity.Submission;
 import com.chronos.portal.entity.SystemConfig;
@@ -74,13 +75,27 @@ public class PortalService {
             ));
         }
 
+        List<Submission> teamSubs = submissionRepository.findByTeamIdOrderBySubmittedAtDesc(team.getId());
+        List<TeamSubmissionDTO> recentSubmissions = new ArrayList<>();
+        for (Submission sub : teamSubs) {
+            recentSubmissions.add(new TeamSubmissionDTO(
+                    sub.getCheckpointId(),
+                    sub.getRawSubmittedValue(),
+                    sub.getIsCorrect(),
+                    sub.getPointsAwarded(),
+                    sub.getAttemptNumber(),
+                    sub.getSubmittedAt()
+            ));
+        }
+
         return new TeamProgressResponse(
                 team.getTeamCode(),
                 team.getTeamName(),
                 team.getTotalScore(),
                 team.getCompletedCheckpoints(),
                 frozen,
-                checkpointStatuses
+                checkpointStatuses,
+                recentSubmissions
         );
     }
 

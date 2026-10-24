@@ -23,7 +23,12 @@ export const getStoredTeam = () => {
 
 export const setAuthSession = (token, teamData) => {
   localStorage.setItem('chronos_token', token);
-  localStorage.setItem('chronos_team', JSON.stringify(teamData));
+  // Store only team identifiers - NEVER store scores or marks client-side
+  const sanitizedTeam = {
+    teamCode: teamData.teamCode || teamData.identifier,
+    teamName: teamData.teamName || teamData.displayName,
+  };
+  localStorage.setItem('chronos_team', JSON.stringify(sanitizedTeam));
 };
 
 export const clearAuthSession = () => {

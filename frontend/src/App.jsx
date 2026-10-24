@@ -28,6 +28,19 @@ export default function App() {
       const data = await api.getProgress();
       setProgress(data);
       setError('');
+
+      // Restore submission logs from database so refresh never wipes out history
+      if (data.recentSubmissions && Array.isArray(data.recentSubmissions)) {
+        const mappedLogs = data.recentSubmissions.map((s) => ({
+          checkpointId: s.checkpointId,
+          isCorrect: s.isCorrect,
+          pointsAwarded: s.pointsAwarded,
+          attemptNumber: s.attemptNumber,
+          submittedValue: s.submittedValue,
+          time: s.submittedAt ? new Date(s.submittedAt).toLocaleTimeString() : '',
+        }));
+        setLogs(mappedLogs);
+      }
     } catch (err) {
       setError(err.message || 'Failed to sync with CHRONOS engine.');
     } finally {
@@ -36,7 +49,7 @@ export default function App() {
     }
   }, [token]);
 
-  // Initial load on login / mount
+  // Initial load on mount or login
   useEffect(() => {
     if (token) {
       loadProgress(false);
@@ -54,7 +67,10 @@ export default function App() {
 
   const handleLoginSuccess = (loginData) => {
     setToken(loginData.token);
-    setTeam(loginData);
+    setTeam({
+      teamCode: loginData.teamCode,
+      teamName: loginData.teamName,
+    });
   };
 
   const handleLogout = () => {
@@ -69,7 +85,7 @@ export default function App() {
     try {
       const result = await api.submitAnswer(checkpointId, answer);
 
-      // Add to telemetry activity log
+      // Optimistically prepend to telemetry activity log
       const newLog = {
         checkpointId,
         isCorrect: result.isCorrect,
@@ -79,13 +95,12 @@ export default function App() {
       };
       setLogs((prev) => [newLog, ...prev]);
 
-      // Optimistically update total score in state immediately
+      // Optimistically update total score in state
       if (result.updatedTotalScore !== undefined) {
         setProgress((prev) => prev ? { ...prev, totalScore: result.updatedTotalScore } : prev);
-        setTeam((prev) => prev ? { ...prev, totalScore: result.updatedTotalScore } : prev);
       }
 
-      // Refresh progress to update checkpoint states
+      // Refresh progress to sync complete state from DB
       await loadProgress(true);
 
       return result;
@@ -94,17 +109,17 @@ export default function App() {
     }
   };
 
-  // If not authenticated, show sleek LoginPage
+  // If not authenticated, render LoginPage
   if (!token) {
     return <LoginPage onLoginSuccess={handleLoginSuccess} />;
   }
 
   const checkpoints = progress?.checkpoints || [];
-  const totalScore = progress?.totalScore ?? team?.totalScore ?? 100;
+  const totalScore = progress?.totalScore ?? 100;
   const isPortalFrozen = progress?.isPortalFrozen ?? false;
 
   return (
-    <div className="min-h-screen bg-[#07090e] chronos-grid text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#0d0f14] chronos-grid text-[#dbd4cb] flex flex-col font-sans">
       {/* Top Navbar */}
       <Navbar
         teamData={team}
@@ -125,7 +140,7 @@ export default function App() {
               <ShieldAlert className="w-5 h-5 text-rose-400 shrink-0" />
               <div>
                 <span className="font-mono font-bold text-xs uppercase tracking-wide block">
-                  TEMPORAL LOCKOUT ACTIVE (PORTAL FROZEN)
+                  TEMPORAL LOCKOUT ACTIVE • PORTAL FROZEN
                 </span>
                 <span className="text-xs text-rose-300 font-mono">
                   Submissions are temporarily suspended by NISB Control. Scoring is halted.
@@ -146,9 +161,9 @@ export default function App() {
 
         {/* Loading Spinner during initial fetch */}
         {loading && !progress ? (
-          <div className="py-20 flex flex-col items-center justify-center space-y-3 font-mono text-cyan-400">
-            <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-            <span className="text-xs tracking-widest uppercase">Synchronizing CHRONOS Neural Link...</span>
+          <div className="py-20 flex flex-col items-center justify-center space-y-3 font-mono text-amber-400">
+            <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs tracking-widest uppercase">Synchronizing Investigation Dossier...</span>
           </div>
         ) : (
           <>
@@ -158,10 +173,10 @@ export default function App() {
             {/* Checkpoint Cards Grid */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#8b92a2]">
                   INVESTIGATION SEQUENCE (6 CHECKPOINTS)
                 </span>
-                <span className="text-[11px] font-mono text-cyan-400/90">
+                <span className="text-[11px] font-mono text-amber-400/90">
                   Open Investigation • Attend any checkpoint in any order
                 </span>
               </div>
@@ -187,10 +202,10 @@ export default function App() {
       {/* Rules Modal */}
       <RulesModal isOpen={showRules} onClose={() => setShowRules(false)} />
 
-      {/* Sleek Minimal Footer */}
-      <footer className="border-t border-slate-800/80 bg-[#07090e]/80 py-4 text-center text-[11px] font-mono text-slate-500">
+      {/* Noir Minimal Footer */}
+      <footer className="border-t border-[#282d3b] bg-[#10131a]/90 py-4 text-center text-[11px] font-mono text-[#8b92a2]">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>THE 33RD CYCLE // NISB PORTAL</span>
+          <span>THE 33RD CYCLE • NISB PORTAL</span>
           <span className="text-slate-600">CHRONOS Anomaly Engine</span>
         </div>
       </footer>

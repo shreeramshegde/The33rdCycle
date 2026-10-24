@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final SystemConfigRepository systemConfigRepository;
     private final CheckpointRepository checkpointRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JdbcTemplate jdbcTemplate;
 
     private record TeamSeedDef(String code, String name) {}
 
@@ -57,17 +59,27 @@ public class DatabaseInitializer implements CommandLineRunner {
                                TeamRepository teamRepository,
                                SystemConfigRepository systemConfigRepository,
                                CheckpointRepository checkpointRepository,
-                               PasswordEncoder passwordEncoder) {
+                               PasswordEncoder passwordEncoder,
+                               JdbcTemplate jdbcTemplate) {
         this.adminRepository = adminRepository;
         this.teamRepository = teamRepository;
         this.systemConfigRepository = systemConfigRepository;
         this.checkpointRepository = checkpointRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void run(String... args) {
         log.info("Checking CHRONOS Database status...");
+
+        // Ensure PostgreSQL table allows NULL for password_hash so teams can dynamically claim password
+        try {
+            jdbcTemplate.execute("ALTER TABLE teams ALTER COLUMN password_hash DROP NOT NULL");
+            log.info("Ensured teams.password_hash allows NULL for first-time login claim.");
+        } catch (Exception e) {
+            log.warn("Notice checking teams column constraint: {}", e.getMessage());
+        }
 
         // Ensure SystemConfig key exists
         if (systemConfigRepository.findByConfigKey("PORTAL_FROZEN").isEmpty()) {
@@ -83,24 +95,31 @@ public class DatabaseInitializer implements CommandLineRunner {
         log.info("Verified and updated admin account: {} / {}", defaultAdminUsername, defaultAdminPassword);
 
         // Ensure all 10 Competition Teams + 5 Dummy Teams exist
-        String teamHash = passwordEncoder.encode("team123");
         for (TeamSeedDef seed : REQUIRED_TEAMS) {
             if (teamRepository.findByTeamCode(seed.code()).isEmpty()) {
-                Team team = new Team(seed.code(), seed.name(), teamHash);
+                Team team = new Team(seed.code(), seed.name(), null);
                 teamRepository.save(team);
-                log.info("Seeded initial team: {} - {}", seed.code(), seed.name());
+                log.info("Seeded initial team: {} - {} (Password: Unclaimed)", seed.code(), seed.name());
             }
         }
 
-        // Verify existing teams password hash
-        List<Team> teams = teamRepository.findAll();
-        for (Team team : teams) {
-            if (!passwordEncoder.matches("team123", team.getPasswordHash())) {
-                team.setPasswordHash(teamHash);
+        // Transition teams with legacy default "team123" to NULL so participants can claim their own unique passwords
+        for (Team team : teamRepository.findAll()) {
+            if (team.getPasswordHash() != null && passwordEncoder.matches("team123", team.getPasswordHash())) {
+                team.setPasswordHash(null);
                 teamRepository.save(team);
-                log.info("Updated password hash for team: {}", team.getTeamCode());
+                log.info("Reset default password to NULL for team: {} (Ready for unique password claim)", team.getTeamCode());
             }
         }
+
+        // Ensure ROUND_0 stage label is clear to prevent confusion with online file uploads
+        checkpointRepository.findById("ROUND_0").ifPresent(cp -> {
+            if ("Opening File".equalsIgnoreCase(cp.getStageLabel())) {
+                cp.setStageLabel("Opening Case Dossier");
+                checkpointRepository.save(cp);
+                log.info("Updated ROUND_0 stage label to 'Opening Case Dossier'");
+            }
+        });
 
         long count = checkpointRepository.count();
         log.info("CHRONOS Engine Ready. Checkpoints configured: {}", count);

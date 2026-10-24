@@ -35,19 +35,30 @@ public class AuthService {
 
     @Transactional
     public AuthResponse teamLogin(TeamLoginRequest request) {
-        Team team = teamRepository.findByTeamCode(request.getTeamCode().trim().toUpperCase())
-                .orElseThrow(() -> new BadCredentialsException("Invalid Team Code or Access Key"));
+        String teamCode = request.getTeamCode().trim().toUpperCase();
+        Team team = teamRepository.findByTeamCode(teamCode)
+                .orElseThrow(() -> new BadCredentialsException("Invalid Team Code. Please check your assigned team code (e.g. TEAM_01)."));
 
         if (!Boolean.TRUE.equals(team.getIsActive())) {
             throw new BadCredentialsException("Team account is currently deactivated");
         }
 
-        if (!passwordEncoder.matches(request.getPassword(), team.getPasswordHash())) {
-            throw new BadCredentialsException("Invalid Team Code or Access Key");
+        // First-Time Registration / Dynamic Password Claim
+        if (team.getPasswordHash() == null || team.getPasswordHash().trim().isEmpty()) {
+            if (request.getPassword() == null || request.getPassword().trim().length() < 3) {
+                throw new IllegalArgumentException("First-time setup: please choose a password with at least 3 characters.");
+            }
+            team.setPasswordHash(passwordEncoder.encode(request.getPassword().trim()));
+            team.setLastActive(ZonedDateTime.now());
+            teamRepository.save(team);
+        } else {
+            // Existing team password verification
+            if (!passwordEncoder.matches(request.getPassword(), team.getPasswordHash())) {
+                throw new BadCredentialsException("Incorrect password for " + team.getTeamCode() + ". If your team forgot its password, request a reset from NISB Admin.");
+            }
+            team.setLastActive(ZonedDateTime.now());
+            teamRepository.save(team);
         }
-
-        team.setLastActive(ZonedDateTime.now());
-        teamRepository.save(team);
 
         String token = jwtUtil.generateToken(team.getTeamCode(), "ROLE_TEAM", team.getTeamName());
 

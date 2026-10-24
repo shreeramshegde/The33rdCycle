@@ -2,23 +2,23 @@
 
 @layer base {
   :root {
-    --bg-void: #07090e;
-    --bg-card: #0d121d;
-    --bg-card-hover: #131b2a;
-    --border-subtle: #1e293b;
-    --border-glow: #0284c7;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --chronos-cyan: #06b6d4;
-    --chronos-emerald: #10b981;
-    --chronos-rose: #f43f5e;
+    --bg-noir: #0d0f14;
+    --bg-dossier: #14171f;
+    --bg-card: #191d26;
+    --bg-card-hover: #202632;
+    --border-dossier: #282d3b;
+    --border-amber: #d97706;
+    --text-parchment: #dbd4cb;
+    --text-muted: #8b92a2;
     --chronos-amber: #f59e0b;
+    --chronos-gold: #d97706;
+    --chronos-emerald: #10b981;
+    --chronos-rose: #ef4444;
   }
 
   html, body {
-    background-color: var(--bg-void);
-    color: var(--text-primary);
+    background-color: var(--bg-noir);
+    color: var(--text-parchment);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     min-height: 100vh;
     min-height: -webkit-fill-available;
@@ -40,27 +40,31 @@
   }
 }
 
-/* Sci-fi Terminal Grid Background */
+/* Dossier Noir Grid Background */
 .chronos-grid {
-  background-size: 28px 28px;
+  background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(to right, rgba(219, 212, 203, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(219, 212, 203, 0.02) 1px, transparent 1px);
 }
 
-/* Custom Sleek Scrollbar */
+/* Custom Sleek Noir Scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #0d0f14;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 2px;
+  background: #282d3b;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3e465a;
 }
 
 /* Touch-optimized button feedback */

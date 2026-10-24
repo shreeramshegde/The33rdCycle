@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { History, ChevronDown, ChevronUp, CheckCircle, XCircle } from 'lucide-react';
 
 export default function ActivityLog({ logs = [] }) {
-  // Collapsed by default on mobile, can be toggled open
+  // Collapsed by default on mobile, openable with toggle
   const [isOpen, setIsOpen] = useState(false);
 
   if (!logs || logs.length === 0) {
@@ -10,15 +10,15 @@ export default function ActivityLog({ logs = [] }) {
   }
 
   return (
-    <div className="bg-[#0b0f19]/80 border border-slate-800 rounded-xl overflow-hidden backdrop-blur-sm">
+    <div className="bg-[#141720]/90 border border-[#282d3b] rounded-xl overflow-hidden backdrop-blur-sm">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 bg-slate-900/60 hover:bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-left transition-colors cursor-pointer"
+        className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 bg-[#181c26]/80 hover:bg-[#1e2330] border-b border-[#282d3b] flex items-center justify-between text-left transition-colors cursor-pointer"
       >
         <div className="flex items-center gap-2">
-          <History className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-            Recent Submissions Log ({logs.length})
+          <History className="w-3.5 h-3.5 text-amber-400" />
+          <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-[#dbd4cb]">
+            Submission Activity Log ({logs.length})
           </span>
         </div>
         {isOpen ? (
@@ -29,7 +29,7 @@ export default function ActivityLog({ logs = [] }) {
       </button>
 
       {isOpen && (
-        <div className="p-2.5 sm:p-4 max-h-52 overflow-y-auto space-y-1.5 font-mono text-[11px] sm:text-xs">
+        <div className="p-2.5 sm:p-4 max-h-56 overflow-y-auto space-y-1.5 font-mono text-[11px] sm:text-xs">
           {logs.map((log, idx) => (
             <div
               key={idx}
@@ -46,10 +46,10 @@ export default function ActivityLog({ logs = [] }) {
                   <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 )}
                 <div className="truncate">
-                  <span className="font-bold text-slate-100">[{log.checkpointId}]</span>{' '}
+                  <span className="font-bold text-[#dbd4cb]">[{log.checkpointId}]</span>{' '}
                   <span className="text-slate-400">#{log.attemptNumber}:</span>{' '}
-                  <span className={log.isCorrect ? 'text-emerald-300' : 'text-rose-300'}>
-                    {log.isCorrect ? 'CORRECT' : 'MISMATCH'}
+                  <span className={log.isCorrect ? 'text-emerald-300 font-semibold' : 'text-rose-300'}>
+                    {log.isCorrect ? 'VERIFIED' : 'MISMATCH'}
                   </span>
                 </div>
               </div>

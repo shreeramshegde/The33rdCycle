@@ -45,7 +45,7 @@ CREATE TABLE teams (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     team_code VARCHAR(30) UNIQUE NOT NULL,        -- e.g. "TEAM_01", "TEAM_ALPHA"
     team_name VARCHAR(100) NOT NULL,               -- e.g. "Paradox Hunters"
-    password_hash VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NULL,
     total_score INT DEFAULT 100 NOT NULL,          -- Event Rule: Every team begins with 100 points
     completed_checkpoints INT DEFAULT 0 NOT NULL,
     is_active BOOLEAN DEFAULT TRUE NOT NULL,

@@ -1,5 +1,6 @@
 package com.chronos.portal.dto.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeamProgressResponse {
@@ -10,6 +11,7 @@ public class TeamProgressResponse {
     private Integer completedCheckpoints;
     private Boolean isPortalFrozen;
     private List<CheckpointStatusDTO> checkpoints;
+    private List<TeamSubmissionDTO> recentSubmissions = new ArrayList<>();
 
     public TeamProgressResponse() {
     }
@@ -21,6 +23,17 @@ public class TeamProgressResponse {
         this.completedCheckpoints = completedCheckpoints;
         this.isPortalFrozen = isPortalFrozen;
         this.checkpoints = checkpoints;
+        this.recentSubmissions = new ArrayList<>();
+    }
+
+    public TeamProgressResponse(String teamCode, String teamName, Integer totalScore, Integer completedCheckpoints, Boolean isPortalFrozen, List<CheckpointStatusDTO> checkpoints, List<TeamSubmissionDTO> recentSubmissions) {
+        this.teamCode = teamCode;
+        this.teamName = teamName;
+        this.totalScore = totalScore;
+        this.completedCheckpoints = completedCheckpoints;
+        this.isPortalFrozen = isPortalFrozen;
+        this.checkpoints = checkpoints;
+        this.recentSubmissions = recentSubmissions != null ? recentSubmissions : new ArrayList<>();
     }
 
     public String getTeamCode() {
@@ -69,5 +82,13 @@ public class TeamProgressResponse {
 
     public void setCheckpoints(List<CheckpointStatusDTO> checkpoints) {
         this.checkpoints = checkpoints;
+    }
+
+    public List<TeamSubmissionDTO> getRecentSubmissions() {
+        return recentSubmissions;
+    }
+
+    public void setRecentSubmissions(List<TeamSubmissionDTO> recentSubmissions) {
+        this.recentSubmissions = recentSubmissions;
     }
 }

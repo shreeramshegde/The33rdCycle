@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 public interface SubmissionRepository extends JpaRepository<Submission, Long> {
     List<Submission> findByTeamId(UUID teamId);
+    List<Submission> findByTeamIdOrderBySubmittedAtDesc(UUID teamId);
     List<Submission> findByTeamIdAndCheckpointId(UUID teamId, String checkpointId);
     Optional<Submission> findFirstByTeamIdAndCheckpointIdAndIsCorrectTrue(UUID teamId, String checkpointId);
     int countByTeamIdAndCheckpointId(UUID teamId, String checkpointId);
