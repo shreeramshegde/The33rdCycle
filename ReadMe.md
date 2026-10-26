@@ -49,12 +49,12 @@ Website/
 
 | Stage Code | Title | Concept | Target Answer |
 | :--- | :--- | :--- | :--- |
-| `ROUND_0` | Incident Log Calibration | Clock Drift Offset | `11:59:33` |
-| `CP_1` | The Last Transmission | Hamming (7,4) Code | `2056` |
-| `CP_2` | The Unreliable Witness | RSA Digital Signature | `RECORD3` |
+| `ROUND_0` | Incident Log Calibration | Clock Drift Offset | `23:59:33` (or `11:59:33`) |
+| `CP_1` | The Last Transmission | Temporal Intercept Coordinates | `1993 and 2059` |
+| `CP_2` | The Unreliable Witness | Temporal Divergence Markers | `1993 and 2059` |
 | `CP_3` | The CHRONOS Terminal | Finite State Machine (FSM) | `1101` |
 | `CP_4` | The Secondary Override | Logic Gates + RC Timing | `CH-0-33` |
-| `CP_5` | The Archival Grid | Sudoku Proof-of-Work | `1984` |
+| `CP_5` | The Archival Grid | Sudoku Convergence Timestamp | `23:59:33` |
 
 ---
 

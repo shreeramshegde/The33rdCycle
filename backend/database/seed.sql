@@ -27,9 +27,9 @@ INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_ali
 (
     'ROUND_0',
     'Incident Log Clock Calibration',
-    'Opening File',
-    '11:59:33',
-    ARRAY['11:59:33', '11:59:33 PM', '23:59:33', '115933'],
+    'Opening Case Dossier',
+    '23:59:33',
+    ARRAY['23:59:33', '11:59:33', '11:59:33 PM', '235933', '115933', '23:59:33 PM', '23.59.33', '11.59.33', '23 59 33', '11 59 33'],
     20,
     5,
     0,
@@ -39,8 +39,8 @@ INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_ali
     'CP_1',
     'The Last Transmission (Hamming Parity)',
     'Checkpoint 1',
-    '2056',
-    ARRAY['2056', 'YEAR 2056', '2054'],
+    '1993AND2059',
+    ARRAY['1993 and 2059', '1993 & 2059', '1993, 2059', '1993 2059', '1993-2059', '1993/2059', '19932059', '1993AND2059', '2059 and 1993', '2059 & 1993', '2059, 1993', '2059 1993', '2059-1993', '2059AND1993', 'YEAR 1993 AND YEAR 2059', '1993,2059'],
     20,
     5,
     1,
@@ -50,8 +50,8 @@ INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_ali
     'CP_2',
     'The Unreliable Witness (Elias Verification)',
     'Checkpoint 2',
-    'RECORD3',
-    ARRAY['RECORD 3', '3', 'RECORD3', 'REC 3', 'RECORD-3'],
+    '1993AND2059',
+    ARRAY['1993 and 2059', '1993 & 2059', '1993, 2059', '1993 2059', '1993-2059', '1993/2059', '19932059', '1993AND2059', '2059 and 1993', '2059 & 1993', '2059, 1993', '2059 1993', '2059-1993', '2059AND1993', 'YEAR 1993 AND YEAR 2059', '1993,2059'],
     20,
     5,
     2,
@@ -83,13 +83,22 @@ INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_ali
     'CP_5',
     'The Archival Grid (Sudoku Consensus)',
     'Checkpoint 5',
-    '1984',
-    ARRAY['1984', 'YEAR 1984'],
+    '23:59:33',
+    ARRAY['23:59:33', '235933', '11:59:33', '11:59:33 PM', '115933', '23:59:33 PM', '23.59.33', '11.59.33', '23 59 33', '11 59 33'],
     20,
     5,
     5,
     TRUE
-);
+)
+ON CONFLICT (id) DO UPDATE SET
+    title = EXCLUDED.title,
+    stage_label = EXCLUDED.stage_label,
+    normalized_answer = EXCLUDED.normalized_answer,
+    accepted_aliases = EXCLUDED.accepted_aliases,
+    max_points = EXCLUDED.max_points,
+    penalty_points = EXCLUDED.penalty_points,
+    order_index = EXCLUDED.order_index,
+    is_active = EXCLUDED.is_active;
 
 -- -----------------------------------------------------------------------------
 -- 4. 10 COMPETITION TEAMS + 5 DUMMY / TEST BENCH TEAMS

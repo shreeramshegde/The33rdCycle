@@ -1,6 +1,7 @@
 package com.chronos.portal.config;
 
 import com.chronos.portal.entity.Admin;
+import com.chronos.portal.entity.Checkpoint;
 import com.chronos.portal.entity.SystemConfig;
 import com.chronos.portal.entity.Team;
 import com.chronos.portal.repository.AdminRepository;
@@ -31,6 +32,17 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private record TeamSeedDef(String code, String name) {}
 
+    private record CheckpointSeedDef(
+            String id,
+            String title,
+            String stageLabel,
+            String normalizedAnswer,
+            String[] acceptedAliases,
+            Integer maxPoints,
+            Integer penaltyPoints,
+            Integer orderIndex
+    ) {}
+
     private static final List<TeamSeedDef> REQUIRED_TEAMS = List.of(
             new TeamSeedDef("TEAM_01", "Paradox Seekers"),
             new TeamSeedDef("TEAM_02", "Quantum Observers"),
@@ -47,6 +59,65 @@ public class DatabaseInitializer implements CommandLineRunner {
             new TeamSeedDef("DUMMY_03", "IEEE Test Gamma"),
             new TeamSeedDef("DUMMY_04", "IEEE Test Delta"),
             new TeamSeedDef("DUMMY_05", "IEEE Test Epsilon")
+    );
+
+    private static final List<CheckpointSeedDef> REQUIRED_CHECKPOINTS = List.of(
+            new CheckpointSeedDef(
+                    "ROUND_0",
+                    "Incident Log Clock Calibration",
+                    "Opening Case Dossier",
+                    "23:59:33",
+                    new String[]{"23:59:33", "11:59:33", "11:59:33 PM", "235933", "115933", "23:59:33 PM", "23.59.33", "11.59.33", "23 59 33", "11 59 33"},
+                    20, 5, 0
+            ),
+            new CheckpointSeedDef(
+                    "CP_1",
+                    "The Last Transmission (Hamming Parity)",
+                    "Checkpoint 1",
+                    "1993AND2059",
+                    new String[]{
+                            "1993 and 2059", "1993 & 2059", "1993, 2059", "1993 2059", "1993-2059", "1993/2059",
+                            "19932059", "1993AND2059", "2059 and 1993", "2059 & 1993", "2059, 1993", "2059 1993",
+                            "2059-1993", "2059AND1993", "YEAR 1993 AND YEAR 2059", "1993,2059"
+                    },
+                    20, 5, 1
+            ),
+            new CheckpointSeedDef(
+                    "CP_2",
+                    "The Unreliable Witness (Elias Verification)",
+                    "Checkpoint 2",
+                    "1993AND2059",
+                    new String[]{
+                            "1993 and 2059", "1993 & 2059", "1993, 2059", "1993 2059", "1993-2059", "1993/2059",
+                            "19932059", "1993AND2059", "2059 and 1993", "2059 & 1993", "2059, 1993", "2059 1993",
+                            "2059-1993", "2059AND1993", "YEAR 1993 AND YEAR 2059", "1993,2059"
+                    },
+                    20, 5, 2
+            ),
+            new CheckpointSeedDef(
+                    "CP_3",
+                    "The CHRONOS Terminal (FSM Sequence)",
+                    "Checkpoint 3",
+                    "1101",
+                    new String[]{"1101", "1-1-0-1", "1 1 0 1", "1,1,0,1"},
+                    20, 5, 3
+            ),
+            new CheckpointSeedDef(
+                    "CP_4",
+                    "The Secondary Override (Logic & Timing)",
+                    "Checkpoint 4",
+                    "CH033",
+                    new String[]{"CH-0-33", "CH033", "CH 0 33", "CH-033", "CH_0_33"},
+                    20, 5, 4
+            ),
+            new CheckpointSeedDef(
+                    "CP_5",
+                    "The Archival Grid (Sudoku Consensus)",
+                    "Checkpoint 5",
+                    "23:59:33",
+                    new String[]{"23:59:33", "235933", "11:59:33", "11:59:33 PM", "115933", "23:59:33 PM", "23.59.33", "11.59.33", "23 59 33", "11 59 33"},
+                    20, 5, 5
+            )
     );
 
     @Value("${app.default.admin.username:admin}")
@@ -112,14 +183,21 @@ public class DatabaseInitializer implements CommandLineRunner {
             }
         }
 
-        // Ensure ROUND_0 stage label is clear to prevent confusion with online file uploads
-        checkpointRepository.findById("ROUND_0").ifPresent(cp -> {
-            if ("Opening File".equalsIgnoreCase(cp.getStageLabel())) {
-                cp.setStageLabel("Opening Case Dossier");
-                checkpointRepository.save(cp);
-                log.info("Updated ROUND_0 stage label to 'Opening Case Dossier'");
-            }
-        });
+        // Synchronize and seed checkpoints to ensure answers match latest specification
+        for (CheckpointSeedDef def : REQUIRED_CHECKPOINTS) {
+            Checkpoint cp = checkpointRepository.findById(def.id())
+                    .orElseGet(() -> new Checkpoint(def.id(), def.title(), def.stageLabel(), def.normalizedAnswer(), def.acceptedAliases(), def.maxPoints(), def.orderIndex()));
+            cp.setTitle(def.title());
+            cp.setStageLabel(def.stageLabel());
+            cp.setNormalizedAnswer(def.normalizedAnswer());
+            cp.setAcceptedAliases(def.acceptedAliases());
+            cp.setMaxPoints(def.maxPoints());
+            cp.setPenaltyPoints(def.penaltyPoints());
+            cp.setOrderIndex(def.orderIndex());
+            cp.setIsActive(true);
+            checkpointRepository.save(cp);
+            log.info("Synchronized checkpoint {}: answer='{}', aliases={}", def.id(), def.normalizedAnswer(), def.acceptedAliases().length);
+        }
 
         long count = checkpointRepository.count();
         log.info("CHRONOS Engine Ready. Checkpoints configured: {}", count);

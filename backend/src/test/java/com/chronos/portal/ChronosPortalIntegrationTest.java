@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -43,6 +44,9 @@ public class ChronosPortalIntegrationTest {
     @Autowired
     private SystemConfigRepository systemConfigRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private static String teamToken;
     private static String adminToken;
 
@@ -55,6 +59,13 @@ public class ChronosPortalIntegrationTest {
             config.setConfigValue("FALSE");
             systemConfigRepository.save(config);
         }
+
+        // Ensure TEAM_01 has active account with known test password
+        teamRepository.findByTeamCode("TEAM_01").ifPresent(team -> {
+            team.setPasswordHash(passwordEncoder.encode("team123"));
+            team.setIsActive(true);
+            teamRepository.save(team);
+        });
     }
 
     @Test
@@ -179,9 +190,13 @@ public class ChronosPortalIntegrationTest {
     @Order(8)
     @DisplayName("8. Submit Incorrect Answer should reject and deduct 5 points penalty")
     void testSubmitIncorrectAnswer() throws Exception {
+        // Clean previous submissions for CP_5 by TEAM_01 to ensure idempotent test
+        Team team = teamRepository.findByTeamCode("TEAM_01").orElseThrow();
+        submissionRepository.deleteAll(submissionRepository.findByTeamIdAndCheckpointId(team.getId(), "CP_5"));
+
         Map<String, String> submission = new HashMap<>();
         submission.put("checkpointId", "CP_5");
-        submission.put("answer", "2054"); // Incorrect, correct is 1984
+        submission.put("answer", "2054"); // Incorrect, correct is 23:59:33
 
         mockMvc.perform(post("/api/portal/submit")
                         .header("Authorization", "Bearer " + teamToken)
@@ -206,7 +221,7 @@ public class ChronosPortalIntegrationTest {
         // Team attempts to submit while frozen -> Expect 403 Forbidden
         Map<String, String> submission = new HashMap<>();
         submission.put("checkpointId", "CP_5");
-        submission.put("answer", "1984");
+        submission.put("answer", "23:59:33");
 
         mockMvc.perform(post("/api/portal/submit")
                         .header("Authorization", "Bearer " + teamToken)

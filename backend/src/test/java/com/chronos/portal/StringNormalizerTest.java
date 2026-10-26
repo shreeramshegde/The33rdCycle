@@ -17,8 +17,33 @@ public class StringNormalizerTest {
         assertEquals("CH033", StringNormalizer.normalize("  ch-0-33  "));
         assertEquals("1101", StringNormalizer.normalize("1-1-0-1"));
         assertEquals("1101", StringNormalizer.normalize("1 1 0 1"));
-        assertEquals("1984", StringNormalizer.normalize("YEAR 1984"));
+        assertEquals("1993AND2059", StringNormalizer.normalize("1993 and 2059"));
+        assertEquals("1993AND2059", StringNormalizer.normalize("1993 & 2059"));
+        assertEquals("235933", StringNormalizer.normalize("23:59:33"));
         assertEquals("115933", StringNormalizer.normalize("11:59:33 PM"));
+    }
+
+    @Test
+    @DisplayName("Should match Checkpoint 1 & 2 (1993 and 2059) under all acceptable formats")
+    void testCheckpoint1And2Matching() {
+        String target = "1993AND2059";
+        String[] aliases = new String[]{
+                "1993 and 2059", "1993 & 2059", "1993, 2059", "1993 2059", "1993-2059", "1993/2059",
+                "19932059", "1993AND2059", "2059 and 1993", "2059 & 1993", "2059, 1993", "2059 1993",
+                "2059-1993", "2059AND1993", "YEAR 1993 AND YEAR 2059", "1993,2059"
+        };
+
+        assertTrue(StringNormalizer.matches("1993 and 2059", target, aliases));
+        assertTrue(StringNormalizer.matches("1993 & 2059", target, aliases));
+        assertTrue(StringNormalizer.matches("1993, 2059", target, aliases));
+        assertTrue(StringNormalizer.matches("1993 2059", target, aliases));
+        assertTrue(StringNormalizer.matches("2059 and 1993", target, aliases));
+        assertTrue(StringNormalizer.matches("2059 & 1993", target, aliases));
+        assertTrue(StringNormalizer.matches("Year 1993 and Year 2059", target, aliases));
+        assertTrue(StringNormalizer.matches("1993-2059", target, aliases));
+        assertFalse(StringNormalizer.matches("1993 and 2026", target, aliases));
+        assertFalse(StringNormalizer.matches("1993", target, aliases));
+        assertFalse(StringNormalizer.matches("2059", target, aliases));
     }
 
     @Test
@@ -51,14 +76,17 @@ public class StringNormalizerTest {
     @Test
     @DisplayName("Should match Checkpoint 5 (The Archival Grid) under all acceptable formats")
     void testCheckpoint5Matching() {
-        String target = "1984";
-        String[] aliases = new String[]{"1984", "YEAR 1984"};
+        String target = "23:59:33";
+        String[] aliases = new String[]{"23:59:33", "235933", "11:59:33", "11:59:33 PM", "115933", "23:59:33 PM", "23.59.33", "11.59.33", "23 59 33", "11 59 33"};
 
-        assertTrue(StringNormalizer.matches("1984", target, aliases));
-        assertTrue(StringNormalizer.matches("Year 1984", target, aliases));
-        assertTrue(StringNormalizer.matches("  1984  ", target, aliases));
-        assertFalse(StringNormalizer.matches("2054", target, aliases));
-        assertFalse(StringNormalizer.matches("1986", target, aliases));
+        assertTrue(StringNormalizer.matches("23:59:33", target, aliases));
+        assertTrue(StringNormalizer.matches("235933", target, aliases));
+        assertTrue(StringNormalizer.matches("11:59:33", target, aliases));
+        assertTrue(StringNormalizer.matches("11:59:33 PM", target, aliases));
+        assertTrue(StringNormalizer.matches("23.59.33", target, aliases));
+        assertTrue(StringNormalizer.matches("  23:59:33  ", target, aliases));
+        assertFalse(StringNormalizer.matches("23:59:18", target, aliases));
+        assertFalse(StringNormalizer.matches("1984", target, aliases));
     }
 
     @Test
