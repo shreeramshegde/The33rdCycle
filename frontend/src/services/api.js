@@ -16,24 +16,31 @@ const getApiBaseUrl = () => {
 const API_BASE_URL = getApiBaseUrl();
 
 export const getStoredToken = () => localStorage.getItem('chronos_token');
+export const getStoredRole = () => localStorage.getItem('chronos_role') || 'ROLE_TEAM';
 export const getStoredTeam = () => {
   const data = localStorage.getItem('chronos_team');
   return data ? JSON.parse(data) : null;
 };
 
-export const setAuthSession = (token, teamData) => {
+export const setAuthSession = (token, authData) => {
   localStorage.setItem('chronos_token', token);
-  // Store only team identifiers - NEVER store scores or marks client-side
-  const sanitizedTeam = {
-    teamCode: teamData.teamCode || teamData.identifier,
-    teamName: teamData.teamName || teamData.displayName,
+  const role = authData.role || (authData.identifier === 'admin' ? 'ROLE_ADMIN' : 'ROLE_TEAM');
+  localStorage.setItem('chronos_role', role);
+
+  const sanitizedUser = {
+    identifier: authData.identifier || authData.teamCode || 'admin',
+    displayName: authData.displayName || authData.teamName || 'Admin',
+    teamCode: authData.teamCode || authData.identifier,
+    teamName: authData.teamName || authData.displayName,
+    role,
   };
-  localStorage.setItem('chronos_team', JSON.stringify(sanitizedTeam));
+  localStorage.setItem('chronos_team', JSON.stringify(sanitizedUser));
 };
 
 export const clearAuthSession = () => {
   localStorage.removeItem('chronos_token');
   localStorage.removeItem('chronos_team');
+  localStorage.removeItem('chronos_role');
 };
 
 const handleResponse = async (response) => {
@@ -102,6 +109,46 @@ export const api = {
         answer: cleanAnswer,
         submittedAnswer: cleanAnswer,
       }),
+    });
+    return handleResponse(res);
+  },
+
+  // Admin authentication
+  async adminLogin(username, password) {
+    const res = await fetch(`${API_BASE_URL}/auth/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username.trim(), password }),
+    });
+    return handleResponse(res);
+  },
+
+  // Admin issue hint penalty (-2 pts)
+  async issueHint(teamCode, checkpointId) {
+    const token = getStoredToken();
+    const res = await fetch(`${API_BASE_URL}/admin/hint`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        teamCode: teamCode.trim().toUpperCase(),
+        checkpointId: checkpointId.trim().toUpperCase(),
+      }),
+    });
+    return handleResponse(res);
+  },
+
+  // Admin get team overview (for team dropdown and current scores)
+  async getAdminTeams() {
+    const token = getStoredToken();
+    const res = await fetch(`${API_BASE_URL}/admin/leaderboard`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     });
     return handleResponse(res);
   },

@@ -13,7 +13,6 @@ export default function CheckpointCard({
   const [feedback, setFeedback] = useState(null);
 
   const isCompleted = checkpoint.isCompleted;
-  const isStageZero = checkpoint.id === 'ROUND_0' || checkpoint.orderIndex === 0;
 
   const handleInputChange = (e) => {
     playKeyClick();
@@ -137,21 +136,6 @@ export default function CheckpointCard({
             </h3>
           </div>
         </div>
-
-        {/* Explicit Case Dossier 0 Physical Envelope Clarification */}
-        {isStageZero && !isCompleted && (
-          <div className="relative z-10 mb-3 p-2 rounded-lg bg-[#241c12]/90 border border-amber-500/40 text-amber-200 text-xs flex items-start gap-2 shadow-sm shrink-0">
-            <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-            <div className="leading-snug">
-              <strong className="text-white uppercase block text-[10px] tracking-wide mb-0.5">
-                Physical Envelope 0 in Team Dossier
-              </strong>
-              <span>
-                Clues are in physical Envelope 0. Compute the time code and submit below.
-              </span>
-            </div>
-          </div>
-        )}
 
         {/* Dynamic Card Content (Fills remaining height evenly across all cards) */}
         <div className="relative z-10 flex-1 flex flex-col justify-between">

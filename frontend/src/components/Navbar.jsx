@@ -76,10 +76,14 @@ export default function Navbar({
             <span className="text-[#9ba4b4] truncate max-w-[120px] font-medium">{teamData?.displayName || teamData?.teamName}</span>
           </div>
 
-          {/* Warm Amber Dossier Total Score Badge */}
-          <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#241c12] border border-amber-600/50 text-amber-300 font-bold text-xs sm:text-sm shadow-sm shadow-amber-950/40">
-            <Award className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span><span className="font-mono tracking-tight">{totalScore}</span> <span className="text-[10px] font-semibold text-amber-400/80 tracking-wide">PTS</span></span>
+          {/* Total Score Badge (Adaptive: Amber for positive, Rose for negative) */}
+          <div className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border font-bold text-xs sm:text-sm shadow-sm ${
+            totalScore < 0
+              ? 'bg-[#291014] border-rose-500/60 text-rose-300 shadow-rose-950/40'
+              : 'bg-[#241c12] border-amber-600/50 text-amber-300 shadow-amber-950/40'
+          }`}>
+            <Award className={`w-3.5 h-3.5 shrink-0 ${totalScore < 0 ? 'text-rose-400' : 'text-amber-400'}`} />
+            <span><span className="font-mono tracking-tight">{totalScore}</span> <span className={`text-[10px] font-semibold tracking-wide ${totalScore < 0 ? 'text-rose-400/80' : 'text-amber-400/80'}`}>PTS</span></span>
           </div>
 
           {/* Sound Audio FX Toggle */}

@@ -49,12 +49,18 @@ Website/
 
 | Stage Code | Title | Concept | Target Answer |
 | :--- | :--- | :--- | :--- |
-| `ROUND_0` | Incident Log Calibration | Clock Drift Offset | `23:59:33` (or `11:59:33`) |
 | `CP_1` | The Last Transmission | Temporal Intercept Coordinates | `1993 and 2059` |
-| `CP_2` | The Unreliable Witness | Temporal Divergence Markers | `1993 and 2059` |
+| `CP_2` | The Unreliable Witness | RSA Digital Signature / Archive Record | `RECORD3` |
 | `CP_3` | The CHRONOS Terminal | Finite State Machine (FSM) | `1101` |
 | `CP_4` | The Secondary Override | Logic Gates + RC Timing | `CH-0-33` |
 | `CP_5` | The Archival Grid | Sudoku Convergence Timestamp | `23:59:33` |
+
+> **Scoring Directives**:
+> - Starting balance: 100 PTS
+> - Correct Checkpoint verification: +20 PTS
+> - Wrong attempt penalty: -5 PTS
+> - Official Hint penalty (NISB Admin): -2 PTS
+> - **Uncapped Ledger**: Scores can freely enter negative integers (e.g. -5, -10) on repeated penalties or hints.
 
 ---
 

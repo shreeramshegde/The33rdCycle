@@ -2,7 +2,7 @@ import React from 'react';
 import { CheckCircle2, Folder, FolderCheck } from 'lucide-react';
 
 export default function ProgressBar({ checkpoints = [] }) {
-  const total = checkpoints.length || 6;
+  const total = checkpoints.length || 5;
   const completedCount = checkpoints.filter((cp) => cp.isCompleted).length;
   const percent = Math.round((completedCount / total) * 100);
 
@@ -28,7 +28,7 @@ export default function ProgressBar({ checkpoints = [] }) {
       </div>
 
       {/* Mobile-Friendly Stepper Strip (Pills) */}
-      <div className="grid grid-cols-6 gap-1 sm:hidden pt-0.5">
+      <div className="grid grid-cols-5 gap-1 sm:hidden pt-0.5">
         {checkpoints.map((cp, idx) => {
           const isCompleted = cp.isCompleted;
           return (
@@ -41,7 +41,7 @@ export default function ProgressBar({ checkpoints = [] }) {
               }`}
             >
               <div className="text-[10px] font-bold font-mono">
-                {idx === 0 ? 'CASE 0' : `CP ${idx}`}
+                {cp.id ? cp.id.replace('_', ' ') : `CP ${idx + 1}`}
               </div>
               <div className="flex justify-center mt-0.5">
                 {isCompleted ? (
@@ -56,7 +56,7 @@ export default function ProgressBar({ checkpoints = [] }) {
       </div>
 
       {/* Tablet & Desktop Stepper Grid */}
-      <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-1">
+      <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-1">
         {checkpoints.map((cp, idx) => {
           const isCompleted = cp.isCompleted;
 
@@ -71,7 +71,7 @@ export default function ProgressBar({ checkpoints = [] }) {
             >
               <div className="flex items-center justify-between gap-1 mb-1">
                 <span className="text-[11px] tracking-wider uppercase font-bold text-[#8b92a2] font-dossier">
-                  Stage <span className="font-mono">{idx}</span>
+                  Stage <span className="font-mono">{cp.orderIndex || (idx + 1)}</span>
                 </span>
                 {isCompleted ? (
                   <FolderCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -80,7 +80,7 @@ export default function ProgressBar({ checkpoints = [] }) {
                 )}
               </div>
               <div className="text-xs sm:text-sm font-medium truncate">
-                {cp.stageLabel || `Checkpoint ${idx}`}
+                {cp.stageLabel || `Checkpoint ${idx + 1}`}
               </div>
               <div className="text-xs mt-0.5 font-dossier">
                 {isCompleted ? (

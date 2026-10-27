@@ -21,20 +21,13 @@ INSERT INTO admins (username, password_hash, full_name, role) VALUES
 ('admin', '$2a$10$XptfskLsT1l/bRTLRiiCgejHqOpgXFreUnNUa35gJdCr2v2QbVF3G', 'IEEE Core Administrator', 'ROLE_ADMIN');
 
 -- -----------------------------------------------------------------------------
--- 3. THE 6 OFFICIAL CHECKPOINTS (From The 33rd Cycle Report)
+-- 3. THE 5 OFFICIAL CHECKPOINTS (From The 33rd Cycle Report)
+-- Note: ROUND_0 has been retired.
 -- -----------------------------------------------------------------------------
+DELETE FROM submissions WHERE checkpoint_id = 'ROUND_0';
+DELETE FROM checkpoints WHERE id = 'ROUND_0';
+
 INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_aliases, max_points, penalty_points, order_index, is_active) VALUES
-(
-    'ROUND_0',
-    'Incident Log Clock Calibration',
-    'Opening Case Dossier',
-    '23:59:33',
-    ARRAY['23:59:33', '11:59:33', '11:59:33 PM', '235933', '115933', '23:59:33 PM', '23.59.33', '11.59.33', '23 59 33', '11 59 33'],
-    20,
-    5,
-    0,
-    TRUE
-),
 (
     'CP_1',
     'The Last Transmission (Hamming Parity)',
@@ -50,8 +43,8 @@ INSERT INTO checkpoints (id, title, stage_label, normalized_answer, accepted_ali
     'CP_2',
     'The Unreliable Witness (Elias Verification)',
     'Checkpoint 2',
-    '1993AND2059',
-    ARRAY['1993 and 2059', '1993 & 2059', '1993, 2059', '1993 2059', '1993-2059', '1993/2059', '19932059', '1993AND2059', '2059 and 1993', '2059 & 1993', '2059, 1993', '2059 1993', '2059-1993', '2059AND1993', 'YEAR 1993 AND YEAR 2059', '1993,2059'],
+    'RECORD3',
+    ARRAY['RECORD 3', '3', 'RECORD3', 'REC 3', 'RECORD-3', 'RECORD_3'],
     20,
     5,
     2,

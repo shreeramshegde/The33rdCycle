@@ -136,14 +136,14 @@ public class ChronosPortalIntegrationTest {
 
     @Test
     @Order(5)
-    @DisplayName("5. Team Portal Status should list all 6 checkpoints")
+    @DisplayName("5. Team Portal Status should list all 5 checkpoints")
     void testGetPortalStatus() throws Exception {
         mockMvc.perform(get("/api/portal/status")
                         .header("Authorization", "Bearer " + teamToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.teamCode", is("TEAM_01")))
                 .andExpect(jsonPath("$.totalScore", greaterThanOrEqualTo(100)))
-                .andExpect(jsonPath("$.checkpoints", hasSize(6)))
+                .andExpect(jsonPath("$.checkpoints", hasSize(5)))
                 .andExpect(jsonPath("$.isPortalFrozen", is(false)));
     }
 
@@ -247,5 +247,26 @@ public class ChronosPortalIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(5))))
                 .andExpect(jsonPath("$[0].totalScore", greaterThanOrEqualTo(100)));
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("11. Admin Issue Hint should deduct 2 points and support negative scores")
+    void testAdminIssueHintPenalty() throws Exception {
+        Map<String, String> hintReq = new HashMap<>();
+        hintReq.put("teamCode", "TEAM_01");
+        hintReq.put("checkpointId", "CP_1");
+
+        Team teamBefore = teamRepository.findByTeamCode("TEAM_01").orElseThrow();
+        int scoreBefore = teamBefore.getTotalScore();
+
+        mockMvc.perform(post("/api/admin/hint")
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(hintReq)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.pointsDeducted", is(2)))
+                .andExpect(jsonPath("$.updatedTotalScore", is(scoreBefore - 2)));
     }
 }

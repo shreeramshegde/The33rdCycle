@@ -3,6 +3,7 @@ package com.chronos.portal.service;
 import com.chronos.portal.dto.request.CreateTeamRequest;
 import com.chronos.portal.dto.request.ScoreAdjustRequest;
 import com.chronos.portal.dto.request.UpdateCheckpointRequest;
+import com.chronos.portal.dto.response.HintPenaltyResponse;
 import com.chronos.portal.dto.response.LeaderboardEntryDTO;
 import com.chronos.portal.dto.response.LiveSubmissionDTO;
 import com.chronos.portal.entity.Checkpoint;
@@ -185,12 +186,48 @@ public class AdminService {
 
         for (Submission sub : teamSubs) {
             if (Boolean.TRUE.equals(sub.getIsCorrect())) {
-                team.setTotalScore(Math.max(0, team.getTotalScore() - sub.getPointsAwarded()));
+                team.setTotalScore(team.getTotalScore() - sub.getPointsAwarded());
                 team.setCompletedCheckpoints(Math.max(0, team.getCompletedCheckpoints() - 1));
             }
         }
 
         submissionRepository.deleteAll(teamSubs);
         teamRepository.save(team);
+    }
+
+    @Transactional
+    public HintPenaltyResponse issueHintPenalty(String teamCode, String checkpointId) {
+        String cleanCode = teamCode.trim().toUpperCase();
+        String cleanCp = checkpointId.trim().toUpperCase();
+
+        Team team = teamRepository.findByTeamCode(cleanCode)
+                .orElseThrow(() -> new IllegalArgumentException("Team not found with code: " + cleanCode));
+
+        int deduction = 2;
+        team.setTotalScore(team.getTotalScore() - deduction);
+        team.setLastActive(ZonedDateTime.now());
+        teamRepository.save(team);
+
+        int attemptNumber = submissionRepository.countByTeamIdAndCheckpointId(team.getId(), cleanCp) + 1;
+        Submission hintRecord = new Submission(
+                team.getId(),
+                cleanCp,
+                "[HINT ISSUED: -2 PTS]",
+                "ADMIN_HINT",
+                false,
+                -deduction,
+                attemptNumber
+        );
+        submissionRepository.save(hintRecord);
+
+        return new HintPenaltyResponse(
+                true,
+                "Official hint penalty registered. -2 points applied to " + team.getTeamCode() + ".",
+                team.getTeamCode(),
+                team.getTeamName(),
+                cleanCp,
+                deduction,
+                team.getTotalScore()
+        );
     }
 }

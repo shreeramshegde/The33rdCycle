@@ -1,9 +1,11 @@
 package com.chronos.portal.controller;
 
 import com.chronos.portal.dto.request.CreateTeamRequest;
+import com.chronos.portal.dto.request.HintPenaltyRequest;
 import com.chronos.portal.dto.request.ScoreAdjustRequest;
 import com.chronos.portal.dto.request.UpdateCheckpointRequest;
 import com.chronos.portal.dto.response.ApiResponse;
+import com.chronos.portal.dto.response.HintPenaltyResponse;
 import com.chronos.portal.dto.response.LeaderboardEntryDTO;
 import com.chronos.portal.dto.response.LiveSubmissionDTO;
 import com.chronos.portal.entity.Checkpoint;
@@ -93,6 +95,12 @@ public class AdminController {
     @Operation(summary = "Adjust Team Score (Penalty / Bonus)", description = "Manually adds or deducts points (e.g. -5 for hint penalty)")
     public ResponseEntity<Team> adjustScore(@Valid @RequestBody ScoreAdjustRequest request) {
         return ResponseEntity.ok(adminService.adjustTeamScore(request));
+    }
+
+    @PostMapping("/hint")
+    @Operation(summary = "Deduct Hint Penalty (-2 pts)", description = "Applies -2 points penalty to a team for taking a checkpoint hint")
+    public ResponseEntity<HintPenaltyResponse> issueHint(@Valid @RequestBody HintPenaltyRequest request) {
+        return ResponseEntity.ok(adminService.issueHintPenalty(request.getTeamCode(), request.getCheckpointId()));
     }
 
     @PostMapping("/teams/{teamId}/checkpoints/{checkpointId}/reset")

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { api, getStoredToken, getStoredTeam, clearAuthSession } from './services/api';
+import { api, getStoredToken, getStoredTeam, getStoredRole, clearAuthSession } from './services/api';
 import LoginPage from './components/LoginPage';
+import AdminHintDesk from './components/AdminHintDesk';
 import Navbar from './components/Navbar';
 import ProgressBar from './components/ProgressBar';
 import CheckpointCard from './components/CheckpointCard';
@@ -12,6 +13,7 @@ import { startAmbientDrone, isSoundMuted } from './services/soundFx';
 
 export default function App() {
   const [token, setToken] = useState(getStoredToken());
+  const [role, setRole] = useState(getStoredRole());
   const [team, setTeam] = useState(getStoredTeam());
   const [progress, setProgress] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,7 +41,7 @@ export default function App() {
 
   // Fetch live team progress from backend
   const loadProgress = useCallback(async (isBackground = false) => {
-    if (!token) return;
+    if (!token || role === 'ROLE_ADMIN') return;
     if (isBackground) setRefreshing(true);
     else setLoading(true);
 
@@ -66,35 +68,41 @@ export default function App() {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [token]);
+  }, [token, role]);
 
   // Initial load on mount or login
   useEffect(() => {
-    if (token) {
+    if (token && role !== 'ROLE_ADMIN') {
       loadProgress(false);
     }
-  }, [token, loadProgress]);
+  }, [token, role, loadProgress]);
 
   // Periodic polling every 12 seconds to auto-detect portal freeze or score adjustments
   useEffect(() => {
-    if (!token) return;
+    if (!token || role === 'ROLE_ADMIN') return;
     const interval = setInterval(() => {
       loadProgress(true);
     }, 12000);
     return () => clearInterval(interval);
-  }, [token, loadProgress]);
+  }, [token, role, loadProgress]);
 
   const handleLoginSuccess = (loginData) => {
+    const userRole = loginData.role || (loginData.identifier === 'admin' ? 'ROLE_ADMIN' : 'ROLE_TEAM');
     setToken(loginData.token);
+    setRole(userRole);
     setTeam({
-      teamCode: loginData.teamCode,
-      teamName: loginData.teamName,
+      identifier: loginData.identifier || loginData.teamCode,
+      displayName: loginData.displayName || loginData.teamName,
+      teamCode: loginData.teamCode || loginData.identifier,
+      teamName: loginData.teamName || loginData.displayName,
+      role: userRole,
     });
   };
 
   const handleLogout = () => {
     clearAuthSession();
     setToken(null);
+    setRole(null);
     setTeam(null);
     setProgress(null);
     setLogs([]);
@@ -136,6 +144,11 @@ export default function App() {
         <LoginPage onLoginSuccess={handleLoginSuccess} />
       </div>
     );
+  }
+
+  // If authenticated as Admin, render dedicated AdminHintDesk
+  if (role === 'ROLE_ADMIN') {
+    return <AdminHintDesk onLogout={handleLogout} />;
   }
 
   const checkpoints = progress?.checkpoints || [];
@@ -214,7 +227,7 @@ export default function App() {
             <div className="space-y-3">
               <div className="flex items-center justify-between font-dossier">
                 <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#dbd4cb]">
-                  EVIDENCE DOSSIER REPOSITORY (6 CHECKPOINTS)
+                  EVIDENCE DOSSIER REPOSITORY ({checkpoints.length} CHECKPOINTS)
                 </span>
                 <span className="text-xs text-amber-400/90 tracking-wide font-medium">
                   Open Investigation • Solve in any order

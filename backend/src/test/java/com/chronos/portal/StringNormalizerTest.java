@@ -24,8 +24,8 @@ public class StringNormalizerTest {
     }
 
     @Test
-    @DisplayName("Should match Checkpoint 1 & 2 (1993 and 2059) under all acceptable formats")
-    void testCheckpoint1And2Matching() {
+    @DisplayName("Should match Checkpoint 1 (1993 and 2059) under all acceptable formats")
+    void testCheckpoint1Matching() {
         String target = "1993AND2059";
         String[] aliases = new String[]{
                 "1993 and 2059", "1993 & 2059", "1993, 2059", "1993 2059", "1993-2059", "1993/2059",
@@ -44,6 +44,21 @@ public class StringNormalizerTest {
         assertFalse(StringNormalizer.matches("1993 and 2026", target, aliases));
         assertFalse(StringNormalizer.matches("1993", target, aliases));
         assertFalse(StringNormalizer.matches("2059", target, aliases));
+    }
+
+    @Test
+    @DisplayName("Should match Checkpoint 2 (The Unreliable Witness - RECORD3)")
+    void testCheckpoint2Matching() {
+        String target = "RECORD3";
+        String[] aliases = new String[]{"RECORD 3", "3", "RECORD3", "REC 3", "RECORD-3", "RECORD_3"};
+
+        assertTrue(StringNormalizer.matches("RECORD3", target, aliases));
+        assertTrue(StringNormalizer.matches("Record 3", target, aliases));
+        assertTrue(StringNormalizer.matches("record-3", target, aliases));
+        assertTrue(StringNormalizer.matches("3", target, aliases));
+        assertTrue(StringNormalizer.matches("REC 3", target, aliases));
+        assertFalse(StringNormalizer.matches("RECORD2", target, aliases));
+        assertFalse(StringNormalizer.matches("1993 and 2059", target, aliases));
     }
 
     @Test
@@ -87,17 +102,5 @@ public class StringNormalizerTest {
         assertTrue(StringNormalizer.matches("  23:59:33  ", target, aliases));
         assertFalse(StringNormalizer.matches("23:59:18", target, aliases));
         assertFalse(StringNormalizer.matches("1984", target, aliases));
-    }
-
-    @Test
-    @DisplayName("Should match Opening Round (Timestamp Correction)")
-    void testRound0Matching() {
-        String target = "11:59:33";
-        String[] aliases = new String[]{"11:59:33", "11:59:33 PM", "23:59:33", "115933"};
-
-        assertTrue(StringNormalizer.matches("11:59:33", target, aliases));
-        assertTrue(StringNormalizer.matches("11:59:33 PM", target, aliases));
-        assertTrue(StringNormalizer.matches("115933", target, aliases));
-        assertFalse(StringNormalizer.matches("11:59:18", target, aliases));
     }
 }

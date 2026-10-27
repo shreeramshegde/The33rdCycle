@@ -63,14 +63,6 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private static final List<CheckpointSeedDef> REQUIRED_CHECKPOINTS = List.of(
             new CheckpointSeedDef(
-                    "ROUND_0",
-                    "Incident Log Clock Calibration",
-                    "Opening Case Dossier",
-                    "23:59:33",
-                    new String[]{"23:59:33", "11:59:33", "11:59:33 PM", "235933", "115933", "23:59:33 PM", "23.59.33", "11.59.33", "23 59 33", "11 59 33"},
-                    20, 5, 0
-            ),
-            new CheckpointSeedDef(
                     "CP_1",
                     "The Last Transmission (Hamming Parity)",
                     "Checkpoint 1",
@@ -86,12 +78,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                     "CP_2",
                     "The Unreliable Witness (Elias Verification)",
                     "Checkpoint 2",
-                    "1993AND2059",
-                    new String[]{
-                            "1993 and 2059", "1993 & 2059", "1993, 2059", "1993 2059", "1993-2059", "1993/2059",
-                            "19932059", "1993AND2059", "2059 and 1993", "2059 & 1993", "2059, 1993", "2059 1993",
-                            "2059-1993", "2059AND1993", "YEAR 1993 AND YEAR 2059", "1993,2059"
-                    },
+                    "RECORD3",
+                    new String[]{"RECORD 3", "3", "RECORD3", "REC 3", "RECORD-3", "RECORD_3"},
                     20, 5, 2
             ),
             new CheckpointSeedDef(
@@ -181,6 +169,15 @@ public class DatabaseInitializer implements CommandLineRunner {
                 teamRepository.save(team);
                 log.info("Reset default password to NULL for team: {} (Ready for unique password claim)", team.getTeamCode());
             }
+        }
+
+        // Ensure retired ROUND_0 (Opening Case Dossier) is completely purged
+        try {
+            jdbcTemplate.execute("DELETE FROM submissions WHERE checkpoint_id = 'ROUND_0'");
+            jdbcTemplate.execute("DELETE FROM checkpoints WHERE id = 'ROUND_0'");
+            log.info("Purged retired ROUND_0 checkpoint and related records from database.");
+        } catch (Exception e) {
+            log.warn("Notice checking retired ROUND_0 removal: {}", e.getMessage());
         }
 
         // Synchronize and seed checkpoints to ensure answers match latest specification

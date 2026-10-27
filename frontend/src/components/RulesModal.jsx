@@ -52,6 +52,8 @@ export default function RulesModal({ isOpen, onClose }) {
                 <li>Initial Allocation: <strong className="text-white font-mono">100 Points</strong></li>
                 <li>Verified Checkpoint: <strong className="text-emerald-400 font-mono">+20 Points</strong></li>
                 <li>Incorrect Attempt Penalty: <strong className="text-rose-400 font-mono">-5 Points</strong> per wrong submission</li>
+                <li>Official Hint Deduction: <strong className="text-amber-400 font-mono">-2 Points</strong> per hint issued by NISB Control</li>
+                <li>Uncapped Range: Scores can proceed below zero (<strong className="text-rose-400 font-mono">negative scores</strong>) on excessive wrong attempts or hints</li>
               </ul>
             </div>
           </div>
